@@ -1,0 +1,181 @@
+/* Your stylesheet goes here */
+@import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css);
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,300);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic);
+
+body {
+    
+    font-family: Lato, 'Helvetica Nue', Helvetica, sans-serif;
+
+    font-size: 16px;
+    font-weight: 300px;
+    background-color: #E9EAEE;
+}
+
+h1, h2{
+  font-family: Raleway, 'Helvetica Nue', Helvetica, sans-serif;
+}
+
+h2 {
+	color: #bc6026;
+}
+nav {
+	position: absolute;
+	background-color: #87CEEB;
+	color: white;
+	font-size: 16px;
+	padding: 15px;
+	width: 100%;
+	z-index: 1;
+}
+
+#nav_bar ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#nav_bar li {
+	display: inline;
+	padding: 0.5em;
+	font-variant: small-caps;
+}
+
+#nav_bar a {
+	text-decoration: none;
+	color: white;
+}
+
+#nav_bar a:hover {
+	color: #d87e28;
+}
+
+.heading {
+	padding-top: 3em;
+}
+
+
+#nav_bar svg {
+	height: 1em;
+	width: 1em;
+	font-size: inherit;
+	fill: white;
+}
+
+#nav_bar svg:hover {
+	fill: #d87e28;
+}
+
+
+svg {
+	height: 1em;
+	width: 1em;
+}
+
+.headline {
+		font-size: 1.25em;
+		text-align: center;
+		padding-bottom: 3em;
+}
+
+.headline svg {
+		width: 1.5em;
+		height: 1.5em;
+		margin: 1em;
+		fill: #d87e28;
+}
+
+#svg_brown {
+  fill: #bc6026; }
+
+#cafeInfo {
+	text-align: center;
+	background-color: #dbdce3;
+	padding-top: 1.5em;
+	padding-bottom: 1.5em;
+}
+
+#cafeInfo img {
+	border-radius: 5px;
+}
+
+dt {
+	text-align: left;
+}
+
+dd {
+	font-style: italic;
+	text-align: left;
+	margin-left: 1em;
+}
+
+.cafe-pic {
+	width: 2em;
+	height: 2em;
+}
+
+#story {
+	background-color: #dbdce3;
+}
+
+#story-img {
+	float: right;
+	max-height: 300px;
+	margin-left: 1em;
+	border-radius: 5px;
+}
+
+footer {
+	background-color: #afb3c2;
+	border-top: 3px solid #d87e28;
+	font-size: 12px;
+	padding-top: 1em;
+}
+
+@media screen and (min-width: 768px) {
+	body {
+		font-size: 20px;
+	}
+	h2 {
+		text-align: center;
+	}
+	nav {
+		background-color:#87CEEB;
+	}
+	#nav_bar li {
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+
+	.heading {
+		background-image: url("../img/background-sm.jpg");
+		background-repeat: no-repeat;
+		background-size: cover;
+		text-align: right;
+		color: white;
+		min-height: 550px;
+	}
+
+	.story-img {
+		max-height: 400px;
+	}
+
+	footer .col-sm-9 {
+		text-align: right;
+	}
+
+
+@media screen and (min-width: 922px) {
+	.heading {
+		background-image: url("../img/background-md.jpg");
+	}
+	#title {
+		font-size: 4em;
+	}
+}
+@media screen and (min-width: 1200px) {
+	.heading {
+		background-image: url("../img/background-lg.jpg");
+	}
+}
+}
