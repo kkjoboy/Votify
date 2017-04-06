@@ -1,0 +1,153 @@
+/* Your stylesheet goes here */
+@import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css);
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,300);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic);
+
+html {
+	height: 100%
+}
+
+body {
+    font-family: Lato, 'Helvetica Nue', Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 300px;
+    background-color: #E9EAEE;
+	
+}
+
+h1, h2{
+  font-family: "Permanent Marker", 'Helvetica Nue', Helvetica, sans-serif;
+  color: #ff3333;
+}
+
+h2 {
+	color:#ff3333;
+}
+nav {
+	position: absolute;
+	background-color: #87CEEB;
+	color: white;
+	font-size: 16px;
+	padding: 15px;
+	width: 100%;
+	z-index: 1;
+}
+
+#nav_bar ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#nav_bar li {
+	display: inline;
+	padding: 0.5em;
+	font-variant: small-caps;
+}
+
+#nav_bar a {
+	text-decoration: none;
+	color: white;
+}
+
+#nav_bar a:hover {
+	color: #ff4d4d;
+}
+
+.heading {
+	padding-top: 3em;
+}
+
+#nav_bar svg {
+	height: 1em;
+	width: 1em;
+	font-size: inherit;
+	fill: white;
+}
+
+#nav_bar svg:hover {
+	fill: #ff4d4d;
+}
+
+svg {
+	height: 1em;
+	width: 1em;
+}
+
+.headline {
+		font-size: 1.25em;
+		text-align: center;
+		padding-bottom: 3em;
+		color: black;
+}
+
+.headline svg {
+		width: 1.5em;
+		height: 1.5em;
+		margin: 1em;
+		fill: #d87e28;
+}
+
+#svg_brown {
+  fill: #bc6026; }
+
+#cafeInfo {
+	text-align: center;
+	background-color: #dbdce3;
+	padding-top: 1.5em;
+	padding-bottom: 1.5em;
+}
+
+p {
+	color:#0099ff;
+}
+
+footer {
+	background-color: #87CEEB;
+	border-top: 3px solid red;
+	font-size: 12px;
+	padding-top: 1em;
+	bottom: 0;
+}
+
+@media screen and (min-width: 768px) {
+	body {
+		font-size: 20px;
+	}
+	h2 {
+		text-align: center;
+	}
+	nav {
+		background-color:#87CEEB;
+	}
+	#nav_bar li {
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+
+	.heading {
+		background-repeat: no-repeat;
+		background-size: cover;
+		text-align: right;
+		color: white;
+		min-height: 550px;
+	}
+
+	footer .col-sm-9 {
+		text-align: right;
+	}
+
+
+@media screen and (min-width: 922px) {
+	.heading {
+	}
+	#title {
+		font-size: 4em;
+	}
+}
+@media screen and (min-width: 1200px) {
+	.heading {
+	}
+
+}
+}
