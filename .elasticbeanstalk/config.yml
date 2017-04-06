@@ -1,0 +1,18 @@
+branch-defaults:
+  starter:
+    environment: Votify
+environment-defaults:
+  node-express-env:
+    branch: null
+    repository: null
+global:
+  application_name: Votify
+  default_ec2_keyname: null
+  default_platform: node.js
+  default_region: us-west-2
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: eb-cli
+  sc: git
+  workspace_type: Application
