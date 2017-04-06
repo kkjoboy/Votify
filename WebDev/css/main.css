@@ -3,21 +3,25 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,300);
 @import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic);
 
-body {
-    
-    font-family: Lato, 'Helvetica Nue', Helvetica, sans-serif;
+html {
+	height: 100%
+}
 
+body {
+    font-family: Lato, 'Helvetica Nue', Helvetica, sans-serif;
     font-size: 16px;
     font-weight: 300px;
     background-color: #E9EAEE;
+	
 }
 
 h1, h2{
-  font-family: Raleway, 'Helvetica Nue', Helvetica, sans-serif;
+  font-family: "Permanent Marker", 'Helvetica Nue', Helvetica, sans-serif;
+  color: #ff3333;
 }
 
 h2 {
-	color: #bc6026;
+	color:#ff3333;
 }
 nav {
 	position: absolute;
@@ -47,13 +51,12 @@ nav {
 }
 
 #nav_bar a:hover {
-	color: #d87e28;
+	color: #ff4d4d;
 }
 
 .heading {
 	padding-top: 3em;
 }
-
 
 #nav_bar svg {
 	height: 1em;
@@ -63,9 +66,8 @@ nav {
 }
 
 #nav_bar svg:hover {
-	fill: #d87e28;
+	fill: #ff4d4d;
 }
-
 
 svg {
 	height: 1em;
@@ -76,6 +78,7 @@ svg {
 		font-size: 1.25em;
 		text-align: center;
 		padding-bottom: 3em;
+		color: black;
 }
 
 .headline svg {
@@ -95,41 +98,16 @@ svg {
 	padding-bottom: 1.5em;
 }
 
-#cafeInfo img {
-	border-radius: 5px;
-}
-
-dt {
-	text-align: left;
-}
-
-dd {
-	font-style: italic;
-	text-align: left;
-	margin-left: 1em;
-}
-
-.cafe-pic {
-	width: 2em;
-	height: 2em;
-}
-
-#story {
-	background-color: #dbdce3;
-}
-
-#story-img {
-	float: right;
-	max-height: 300px;
-	margin-left: 1em;
-	border-radius: 5px;
+p {
+	color:#0099ff;
 }
 
 footer {
-	background-color: #afb3c2;
-	border-top: 3px solid #d87e28;
+	background-color: #87CEEB;
+	border-top: 3px solid red;
 	font-size: 12px;
 	padding-top: 1em;
+	bottom: 0;
 }
 
 @media screen and (min-width: 768px) {
@@ -148,16 +126,11 @@ footer {
 	}
 
 	.heading {
-		background-image: url("../img/background-sm.jpg");
 		background-repeat: no-repeat;
 		background-size: cover;
 		text-align: right;
 		color: white;
 		min-height: 550px;
-	}
-
-	.story-img {
-		max-height: 400px;
 	}
 
 	footer .col-sm-9 {
@@ -167,7 +140,6 @@ footer {
 
 @media screen and (min-width: 922px) {
 	.heading {
-		background-image: url("../img/background-md.jpg");
 	}
 	#title {
 		font-size: 4em;
@@ -175,7 +147,7 @@ footer {
 }
 @media screen and (min-width: 1200px) {
 	.heading {
-		background-image: url("../img/background-lg.jpg");
 	}
+
 }
 }
