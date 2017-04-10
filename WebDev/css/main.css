@@ -3,8 +3,18 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,300);
 @import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic);
 
-html {
-	height: 100%
+html, body{
+    margin: 0;
+
+    padding: 0;
+
+    min-width: 100%;
+    width: 100%;
+    max-width: 100%;
+
+    min-height: 100%;
+    height: 100%;
+    max-height: 100%;
 }
 
 body {
@@ -12,8 +22,9 @@ body {
     font-size: 16px;
     font-weight: 300px;
     background-color: #E9EAEE;
-	
-}
+	min-height: 100vh;
+    margin: 0;
+}	
 
 h1, h2{
   font-family: "Permanent Marker", 'Helvetica Nue', Helvetica, sans-serif;
@@ -81,25 +92,37 @@ svg {
 		color: black;
 }
 
-.headline svg {
-		width: 1.5em;
-		height: 1.5em;
-		margin: 1em;
-		fill: #d87e28;
+#feed {
+	border: 1px solid red;
+	margin: 2px;
+	margin-left: 2px;
 }
 
-#svg_brown {
-  fill: #bc6026; }
-
-#cafeInfo {
-	text-align: center;
-	background-color: #dbdce3;
-	padding-top: 1.5em;
-	padding-bottom: 1.5em;
+#feed p {
+	margin-left: 3px;
 }
 
 p {
 	color:#0099ff;
+}
+
+#descrip {
+	font-size: .75em;
+	color: grey;
+}
+
+#votes {
+	float: right;
+	padding-right: 5px;
+}
+
+#up {
+	-webkit-transform:rotate(180deg); /* Chrome, Safari, Opera */
+	transform:rotate(180deg);
+}
+
+#t {
+	float:left;
 }
 
 footer {
@@ -113,6 +136,7 @@ footer {
 @media screen and (min-width: 768px) {
 	body {
 		font-size: 20px;
+		min-height: 100%;
 	}
 	h2 {
 		text-align: center;
@@ -139,15 +163,7 @@ footer {
 
 
 @media screen and (min-width: 922px) {
-	.heading {
-	}
-	#title {
-		font-size: 4em;
-	}
 }
 @media screen and (min-width: 1200px) {
-	.heading {
-	}
-
 }
 }
