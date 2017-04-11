@@ -19,6 +19,16 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap']) //ngSanit
 		templateUrl: 'partials/articles.html',
 		controller: 'ArtCtrl'
 	})
+	.state('profile', {
+		url: '/profile',
+		templateUrl: 'partials/profile.html',
+		controller: 'ProfileCtrl'
+	})
+	.state('polilitician', {
+		url: '/politicians',
+		templateUrl: 'partials/politicians.html',
+		controller: 'PolCtrl'
+	})
 	$urlRouterProvider.otherwise('/'); //other route
 })
 
@@ -29,10 +39,26 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap']) //ngSanit
 }])
 
 .controller('NewsCtrl', ['$scope', '$http', function($scope, $http) {
+	$scope.count = 0;
+	$scope.count1 = 0;
 
+	$scope.UpVote = function() {
+		$scope.count++;
+	}
+	$scope.DownVote = function() {
+		$scope.count1++;
+	}
 
 }])
 .controller('ArtCtrl', ['$scope', '$http', function($scope, $http) {
+
+
+}])
+.controller('ProfileCtrl', ['$scope', '$http', function($scope, $http) {
+
+
+}])
+.controller('PolCtrl', ['$scope', '$http', function($scope, $http) {
 
 
 }]);
