@@ -1,4 +1,6 @@
 branch-defaults:
+  master:
+    environment: Votify
   starter:
     environment: Votify
 environment-defaults:
