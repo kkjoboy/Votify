@@ -5,24 +5,14 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap']) //ngSanit
 .config(function($stateProvider, $urlRouterProvider) {
 
 	$stateProvider.state('home', {
-			url: '/home', 
-			templateUrl: 'partials/home.html',
+			url: '/index', 
+			templateUrl: '/index.html',
 			controller: 'HomeCtrl'
-		})	
-	.state('newsfeed', {
-		url: '/newsfeed',
-		templateUrl: 'partials/newsfeed.html',
-		controller: 'NewsCtrl'
-	})
-	.state('article', {
-		url: '/articles',
-		templateUrl: 'partials/articles.html',
+		})
+	.state('bills', {
+		url: 'bills',
+		templateUrl: 'partials/bills.html',
 		controller: 'ArtCtrl'
-	})
-	.state('profile', {
-		url: '/profile',
-		templateUrl: 'partials/profile.html',
-		controller: 'ProfileCtrl'
 	})
 	.state('polilitician', {
 		url: '/politicians',
@@ -37,24 +27,7 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap']) //ngSanit
 
 
 }])
-
-.controller('NewsCtrl', ['$scope', '$http', function($scope, $http) {
-	$scope.count = 0;
-	$scope.count1 = 0;
-
-	$scope.UpVote = function() {
-		$scope.count++;
-	}
-	$scope.DownVote = function() {
-		$scope.count1++;
-	}
-
-}])
 .controller('ArtCtrl', ['$scope', '$http', function($scope, $http) {
-
-
-}])
-.controller('ProfileCtrl', ['$scope', '$http', function($scope, $http) {
 
 
 }])
