@@ -2,34 +2,35 @@
 
 angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap']) //ngSanitize for HTML displaying
 
-.config(function($stateProvider, $urlRouterProvider) {
-
-	$stateProvider.state('home', {
-			url: '/home', 
-			templateUrl: 'partials/home.html',
-			controller: 'HomeCtrl'
-		})	
+.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+	$stateProvider
+	.state('home', {
+		url: '/', 
+		templateUrl: '/partials/home.html',
+		controller: 'HomeCtrl'
+	})	
 	.state('newsfeed', {
 		url: '/newsfeed',
-		templateUrl: 'partials/newsfeed.html',
+		templateUrl: '/partials/newsfeed.html',
 		controller: 'NewsCtrl'
 	})
-	.state('article', {
+	.state('articles', {
 		url: '/articles',
-		templateUrl: 'partials/articles.html',
+		templateUrl: '/partials/articles.html',
 		controller: 'ArtCtrl'
 	})
 	.state('profile', {
 		url: '/profile',
-		templateUrl: 'partials/profile.html',
+		templateUrl: '/partials/profile.html',
 		controller: 'ProfileCtrl'
 	})
-	.state('polilitician', {
+	.state('politician', {
 		url: '/politicians',
-		templateUrl: 'partials/politicians.html',
+		templateUrl: '/partials/politicians.html',
 		controller: 'PolCtrl'
 	})
 	$urlRouterProvider.otherwise('/'); //other route
+	$locationProvider.html5Mode(true);
 })
 
 //home page settings
@@ -60,5 +61,21 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap']) //ngSanit
 }])
 .controller('PolCtrl', ['$scope', '$http', function($scope, $http) {
 
+	// TEST Code
+	$scope.load = function ()  {
+        $http.get('/api/politicians').
+            success(function(data, status, headers, config) {
+                console.log('success');
+                $scope.todos = data;
+                console.log(data);
+                console.log($scope.todos);
+
+            }).
+            catch(function(data, status, headers, config) {
+            console.log('catch');
+            console.log(status);
+                console.log(data);
+            });
+    };
 
 }]);

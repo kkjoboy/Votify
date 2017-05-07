@@ -10,6 +10,7 @@ import sys
 # Includes current year and biennium (2017-18)
 # ------------------------------------------------------------------------------------------------------------------------------
 
+biennium = '2017-18'
 currentYear = datetime.now().year
 lastWeek = datetime.now()-timedelta(days=7)
 yesterday = datetime.now()-timedelta(days=1)
@@ -108,6 +109,15 @@ def getLegislationIntroducedSince(connection):
         args = (obj.Biennium, obj.BillNumber, obj.SubstituteVersion, obj.EngrossedVersion, obj.OriginalAgency, obj.Active, obj.DisplayNumber, obj.StateFiscalNote, obj.LocalFiscalNote, obj.Appropriations, obj.RequestedByGovernor, obj.RequestedByBudgetCommittee, obj.RequestedByDepartment, obj.RequestedByOther, obj.ShortDescription, obj.Request, obj.IntroducedDate, obj.Sponsor, obj.PrimeSponsorID, obj.LongDescription, obj.LegalTitle, obj.ShortLegislationType.ShortLegislationType, obj.ShortLegislationType.LongLegislationType, obj.CurrentStatus.BillId, obj.CurrentStatus.HistoryLine, obj.CurrentStatus.ActionDate, obj.CurrentStatus.AmendedByOppositeBody, obj.CurrentStatus.PartialVeto, obj.CurrentStatus.Veto, obj.CurrentStatus.AmendmentsExist, obj.CurrentStatus.Status)
         call_procedure(connection, 'insert_GetLegislationIntroducedSince', args)
 
+def getSponsors(connection):
+    print('Getting Sponsors...')
+    SponsorServiceClient = Client('http://wslwebservices.leg.wa.gov/sponsorservice.asmx?WSDL')
+    getSponsorsResult = SponsorServiceClient.service.GetSponsors(biennium)
+
+    for obj in getSponsorsResult:
+        args = (obj.Id, obj.Name, obj.LongName, obj.Agency, obj.Acronym, obj.Party, obj.District, obj.Phone, obj.Email, obj.FirstName, obj.LastName)
+        call_procedure(connection, 'insert_GetSponsors', args)
+
 # ------------------------------------------------------------------------------------------------------------------------------
 # TABLE INSERTS
 # ------------------------------------------------------------------------------------------------------------------------------
@@ -135,7 +145,8 @@ def main():
     connection = connect()
     # getAmendments(connection)
     # getCommitteeMeetings(connection)
-    getLegislationIntroducedSince(connection)
+    # getLegislationIntroducedSince(connection)
+    getSponsors(connection)
     connection.close()
  
 if __name__ == '__main__':
