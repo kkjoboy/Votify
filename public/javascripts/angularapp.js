@@ -36,6 +36,7 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap']) //ngSanit
 //home page settings
 .controller('HomeCtrl', ['$scope', '$http', function($scope, $http) {
 
+	console.log("Home control initialize");
 
 }])
 
@@ -61,21 +62,22 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap']) //ngSanit
 }])
 .controller('PolCtrl', ['$scope', '$http', function($scope, $http) {
 
-	// TEST Code
-	$scope.load = function ()  {
-        $http.get('/api/politicians').
-            success(function(data, status, headers, config) {
-                console.log('success');
-                $scope.todos = data;
-                console.log(data);
-                console.log($scope.todos);
+	console.log("Politician Control Initialize");
 
-            }).
-            catch(function(data, status, headers, config) {
-            console.log('catch');
-            console.log(status);
-                console.log(data);
-            });
-    };
+	$http.get('/api/politicians').
+		success(function(data, status, headers, config) {
+			console.log('Success getting data from the api');
+			$scope.politicians = data;
+			// angular.forEach($scope.politicians,function(value,index){
+            //     console.log(value.Name);
+
+            // })
+
+		}).
+		catch(function(data, status, headers, config) {
+		console.log('catch');
+		console.log(status);
+			console.log(data);
+		});
 
 }]);

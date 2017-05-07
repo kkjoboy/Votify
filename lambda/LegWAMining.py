@@ -93,7 +93,7 @@ def getCommitteeMeetings(connection):
 def getLegislationIntroducedSince(connection):
     print('Getting LegislationIntroducedSince...')
     LegislationServiceClient = Client('http://wslwebservices.leg.wa.gov/legislationservice.asmx?WSDL')
-    getLegislationIntroducedSinceResult = LegislationServiceClient.service.GetLegislationIntroducedSince(lastWeek)
+    getLegislationIntroducedSinceResult = LegislationServiceClient.service.GetLegislationIntroducedSince(datetime.strptime('2017-01-01' , '%Y-%m-%d'))
 
     for obj in getLegislationIntroducedSinceResult:
         LongLegislationType = None
@@ -118,11 +118,56 @@ def getSponsors(connection):
         args = (obj.Id, obj.Name, obj.LongName, obj.Agency, obj.Acronym, obj.Party, obj.District, obj.Phone, obj.Email, obj.FirstName, obj.LastName)
         call_procedure(connection, 'insert_GetSponsors', args)
 
+def getRollCalls(connection):
+    print('Getting Roll Calls...')
+    RollCallsClient = Client('http://wslwebservices.leg.wa.gov/legislationservice.asmx?WSDL')
+    billData = call_select_query(connection, "SELECT BillNumber FROM LegislationInfo")
+    for BillNumber in billData:
+        print BillNumber[0]
+        getRollCallsResult = RollCallsClient.service.GetRollCalls(biennium, BillNumber[0])
+        for obj in getRollCallsResult:
+            voteList = None
+            print obj.Votes
+            # for vote in obj.Votes:
+            #     print vote.MemberID
+            args = ()
+
 # ------------------------------------------------------------------------------------------------------------------------------
 # TABLE INSERTS
 # ------------------------------------------------------------------------------------------------------------------------------
 
 # Takes in a connection, stored procedure as a string, and the arguments to run in the stored procedure and executes it on MySQL
+def call_procedure(connection, storedProc, args):
+    try:
+        cursor = connection.cursor(buffered=True)
+        cursor.callproc(storedProc, args)
+        connection.commit()
+
+    except Exception, e:
+        print("Unexpected error:", sys.exc_info()[0])
+        print(e)
+        raise
+ 
+    finally:
+        cursor.close()
+
+def call_select_query(connection, query):
+    try:
+        cursor = connection.cursor(buffered=True)
+        cursor.execute(query)
+        data = cursor.fetchall()
+        connection.commit()
+
+    except Exception, e:
+        print("Unexpected error:", sys.exc_info()[0])
+        print(e)
+        raise
+ 
+    finally:
+        cursor.close()
+
+    return data
+
 def call_procedure(connection, storedProc, args):
     try:
         cursor = connection.cursor(buffered=True)
@@ -146,7 +191,8 @@ def main():
     # getAmendments(connection)
     # getCommitteeMeetings(connection)
     # getLegislationIntroducedSince(connection)
-    getSponsors(connection)
+    # getSponsors(connection)
+    getRollCalls(connection)
     connection.close()
  
 if __name__ == '__main__':

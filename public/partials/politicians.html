@@ -1,55 +1,9 @@
-<br>
-  <br>
-  <div class="w3-row-padding w3-padding-16 w3-center" id="food">
-    <div class="w3-quarter">
-      <img src="images/pres2.jpg" alt="News" style="width:100%">
-      <h3>Representative 1</h3>
-      <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">74%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">26%
-    </div>
-    <div class="w3-quarter">
-      <img src="images/pres.jpg" alt="Steak" style="width:100%">
-      <h3>Representative 2</h3>
-      <p>Once again, some random text to lorem lorem lorem lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-        <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">45%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">55%
-    </div>
-    <div class="w3-quarter">
-      <img src="images/rep1.jpg" alt="Cherries" style="width:100%">
-      <h3>Representative 3</h3>
-      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-      <p>What else?</p>
-    <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">68%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">32%
-    </div>
-    <div class="w3-quarter">
-      <img src="images/rep2.jpg" alt="Pasta and Wine" style="width:100%">
-      <h3>Representative 4</h3>
-      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">47%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">53%
-    </div>
-  </div>
-  <div class="w3-row-padding w3-padding-16 w3-center">
-    <div class="w3-quarter">
-      <img src="images/rep3.jpg" alt="Popsicle" style="width:100%">
-      <h3>Representative 5</h3>
-      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">40%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">60%
-    </div>
-    <div class="w3-quarter">
-      <img src="images/rep4.jpg" alt="Salmon" style="width:100%">
-      <h3>Representative 6</h3>
-      <p>Once again, some random text to lorem lorem lorem lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">79%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">21%    
-    </div>
-    <div class="w3-quarter">
-      <img src="images/rep7.jpg" alt="Sandwich" style="width:100%">
-      <h3>Representative 7</h3>
-      <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">18%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">82%
-    </div>
-    <div class="w3-quarter">
-      <img src="images/rep5.jpg" alt="Croissant" style="width:100%">
-      <h3>Representative 8</h3>
-      <p>Lorem lorem lorem lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">25%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">75%
-    </div>
-  </div>
+<div class="w3-quarter" ng-repeat="obj in politicians">
+  <img src="images/pres2.jpg" alt="News" style="width:100%">
+  <h4>{{obj.Name}}</h4>
+  <p>Phone: {{obj.Phone}}</p>
+  <p>Email: {{obj.Email}}</p>
+  <p>Agency: {{obj.Agency}}</p>
+  <p>Party: {{obj.Party}}</p>
+  <p>District: {{obj.District}}</p>
+</div>
