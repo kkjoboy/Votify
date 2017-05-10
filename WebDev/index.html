@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
-<link rel="stylesheet" href="css/main.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.js"></script>
@@ -26,55 +25,39 @@ body, html {
 .menu {
     display: none;
 }
+.input[type=text] {
+    width: 130px;
+    -webkit-transition: width 0.6s ease-in-out;
+    transition: width 0.6s ease-in-out;
+}
+input[type=text]:focus {
+    width: 100%;
+}
+h3:hover {
+    text-decoration: underline;
+}
 </style>
 <body>
 
 <!-- Links (sit on top) -->
 <div class="w3-top">
   <div class="w3-row w3-padding w3-black">
-    <div class="w3-col s3">
-      <a href="#" class="w3-button w3-block w3-black">HOME</a>
+    <div class="w3-col s4">
+      <a href="#about" class="w3-button w3-block w3-black">HOME</a>
     </div>
-    <div class="w3-col s3">
-      <a href="#about" class="w3-button w3-block w3-black">ABOUT</a>
+    <div class="w3-col s4">
+     <a ui-sref='bills' class="w3-button w3-block w3-black">BILLS</a>
     </div>
-    <div class="w3-col s3">
-      <ui-sref='bills' class="w3-button w3-block w3-black">BILLS</a>
-    </div>
-    <div class="w3-col s3">
-      <ui-sref='politician' class="w3-button w3-block w3-black">POLITICIANS</a>
+    <div class="w3-col s4">
+      <a ui-sref='politician' class="w3-button w3-block w3-black">POLITICIANS</a>
     </div>
   </div>
 </div>
 
-<!-- Header with image -->
-<header class="bgimg w3-display-container w3-grayscale-min" id="home">
-  <div class="w3-display-bottomleft w3-center w3-padding-large w3-hide-small">
-    <span class="w3-tag">Washington State Government Information</span>
+<main>
+	<div ui-view>
   </div>
-  <div class="w3-display-middle w3-center">
-    <span class="w3-text-white" style="font-size:90px">VOTIFY</span>
-  </div>
-</header>
-
-<!-- Add a background color and large text to the whole page -->
-<div class="w3-sand w3-grayscale w3-large">
-
-<!-- About Container -->
-<div class="w3-container" id="about">
-  <div class="w3-content" style="max-width:700px">
-    <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">ABOUT VOTIFY</span></h5>
-    <p>Our project was inspired by the desire to increase understanding between politicians and their constituents. We want to ensure that constituents know how their politicians are voting on specific issues. Our team also wants politicians to be able to see a more generalized view of what their constituents want their politicians to be voting for.  Therefore, our team built Votify to allow users to get this information. On our web platform, users will be able to see a clear and concise view of how politicians in Seattle have been voting. </p>
-    <div class="w3-panel w3-leftbar w3-light-grey">
-      <p><i>"Votify allows users to be able to see what politicians are actually doing"</i></p>
-      <p>Political Junkie: Claire Iacono</p>
-    </div>
-    <p><strong>A Capstone Production:</strong> Josh Mielke, Ashlyn Opgrande, and Nick Polsin</p>
-  </div>
-</div>
-
-<!-- End page content -->
-</div>
+</main>
 
 <!-- Footer -->
 <footer class="w3-center w3-light-grey w3-padding-48 w3-large">
