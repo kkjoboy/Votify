@@ -1,0 +1,126 @@
+<!--<div>
+  <br>
+  <br>
+  <div class="w3-row-padding w3-padding-16 w3-center" id="food">
+    <div class="w3-quarter">
+      <img src="images/pres2.jpg" alt="News" style="width:100%">
+      <h3>Representative 1</h3>
+      <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+    <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">74%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">26%
+    </div>
+    <div class="w3-quarter">
+      <img src="images/pres.jpg" alt="Steak" style="width:100%">
+      <h3>Representative 2</h3>
+      <p>Once again, some random text to lorem lorem lorem lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+        <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">45%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">55%
+    </div>
+    <div class="w3-quarter">
+      <img src="images/rep1.jpg" alt="Cherries" style="width:100%">
+      <h3>Representative 3</h3>
+      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+      <p>What else?</p>
+    <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">68%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">32%
+    </div>
+    <div class="w3-quarter">
+      <img src="images/rep2.jpg" alt="Pasta and Wine" style="width:100%">
+      <h3>Representative 4</h3>
+      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+    <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">47%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">53%
+    </div>
+  </div>
+  <div class="w3-row-padding w3-padding-16 w3-center">
+    <div class="w3-quarter">
+      <img src="images/rep3.jpg" alt="Popsicle" style="width:100%">
+      <h3>Representative 5</h3>
+      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+    <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">40%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">60%
+    </div>
+    <div class="w3-quarter">
+      <img src="images/rep4.jpg" alt="Salmon" style="width:100%">
+      <h3>Representative 6</h3>
+      <p>Once again, some random text to lorem lorem lorem lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+    <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">79%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">21%    
+    </div>
+    <div class="w3-quarter">
+      <img src="images/rep7.jpg" alt="Sandwich" style="width:100%">
+      <h3>Representative 7</h3>
+      <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+    <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">18%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">82%
+    </div>
+    <div class="w3-quarter">
+      <img src="images/rep5.jpg" alt="Croissant" style="width:100%">
+      <h3>Representative 8</h3>
+      <p>Lorem lorem lorem lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+    <input type="image" src="images/download-arrow.svg" width =24px height=24px id="up" ng-click="UpVote()">25%<img src="images/downA.svg" width =24px height=24px ng-click="DownVote()">75%
+    </div>
+  </div>
+</div>-->
+
+<br>
+  <br>
+  <br>
+<!-- First Photo Grid-->
+  <div class="w3-row-padding">
+    <div class="w3-third w3-container w3-margin-bottom w3-right">
+      <div class="w3-container w3-white">
+        <input type="text" name="search" placeholder="Search..">
+      </div>
+    </div>
+    <div class="w3-dropdown-hover">
+      <button class="w3-button">Select A Position</button>
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="#" class="w3-bar-item w3-button">Senators</a>
+        <a href="#" class="w3-bar-item w3-button">Legislators</a>
+        <a href="#" class="w3-bar-item w3-button">Governors</a>
+      </div>
+    </div>
+  </div>
+
+  <!--THIS IS WHAT-->
+  <div class="w3-row-padding" ng-repeat="item in politicians track by $index" ng-if="$index % 3 == 0">
+    <div class="w3-third w3-container w3-margin-bottom" 
+        ng-repeat="i in [$index, $index + 1, $index + 2]" 
+        ng-if="politicians[i] != null">
+        <img src="images/representative.jpg" alt="Politician" style="width:100%" class="w3-hover-opacity">
+        <div class="w3-container w3-white">
+          <h3><a ui-sref='profile'>{{politicians[i].Name}}</a></h3>
+          <p>{{politicians[i].Agency}}</p>
+          <p>{{politicians[i].District}}</p>
+          <p>{{politicians[i].Email}}</p>
+          <p>{{politicians[i].Party}}</p>
+          <p>{{politicians[i].Phone}}</p>
+        </div>
+    </div>
+  </div>
+
+  <!--<div id="pol-photo-grid" ng-repeat="item in data track by $index">
+
+    <div ng-class="w3-row-padding|($index % 3 == 0)">
+      <div ng-class="w3-third w3-container w3-margin-bottom|($index % 3 == 0)">
+        <img src="images/representative.jpg" alt="Politician" style="width:100%" class="w3-hover-opacity">
+        <div class="w3-container w3-white">
+          <h3><a ui-sref='profile'>{{item.Name}}</a></h3>
+          <p>{{item.Agency}}</p>
+          <p>{{item.District}}</p>
+          <p>{{item.Email}}</p>
+          <p>{{item.Party}}</p>
+          <p>{{item.Phone}}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>-->
+
+  <!-- Pagination -->
+  <div class="w3-center w3-padding-32">
+    <div class="w3-bar">
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
+      <a href="#" class="w3-bar-item w3-black w3-button">1</a>
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">2</a>
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">3</a>
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">4</a>
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">»</a>
+    </div>
+  </div>
+
+</html>
