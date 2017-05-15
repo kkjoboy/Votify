@@ -167,27 +167,18 @@ def getRollCalls(connection):
                 # print vote.Name
                 # print vote.VOte
                 MemberIdList = MemberIdList + delimeter + str(vote.MemberId)
-                NameList = NameList + delimeter + str(vote.Name)
+                NameList = NameList + delimeter + vote.Name
                 VoteList = VoteList + delimeter + str(vote.VOte)
                 VoteLength = VoteLength + 1
 
             # Get committee meeting values
-            args =
-                (
-                    idLegislationInfo INT
-                    ,Agency varchar(45)
-                    ,BillId varchar(45)
-                    ,Biennium varchar(45)
-                    ,Motion varchar(45)
-                    ,SequenceNumber varchar(45)
-                    ,VoteDate varchar(45)
-                    ,MemberIdList text
-                    ,NameList text
-                    ,VoteList text
-                    ,VoteLength INT
-                )
+            args = (billNumber[1],obj.Agency,obj.BillId,obj.Biennium,obj.Motion,obj.SequenceNumber,obj.VoteDate,MemberIdList,NameList,VoteList,VoteLength)
             # Submit this all to mysql stored procedure
-            call_procedure(connection, 'insert_CommitteeMeetingService', args)
+            # print MemberIdList
+            # print NameList
+            # print VoteList
+            # print VoteLength
+            call_procedure(connection, 'insert_RollCalls', args)
                 
 
 # ------------------------------------------------------------------------------------------------------------------------------
@@ -231,11 +222,11 @@ def select_query(connection, query, args):
 
 def main():
     connection = connect()
-    # getAmendments(connection) # Currently working
-    # getCommitteeMeetings(connection) # Currently working
-    # getLegislationIntroducedSince(connection) # Currently working
-    # getSponsors(connection) # Currently working
-    getRollCalls(connection)
+    getAmendments(connection) # Currently working
+    getCommitteeMeetings(connection) # Currently working
+    getLegislationIntroducedSince(connection) # Currently working
+    getSponsors(connection) # Currently working
+    getRollCalls(connection) # Currently working
     connection.close()
  
 if __name__ == '__main__':
