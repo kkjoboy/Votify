@@ -54,6 +54,10 @@ def getAmendments(connection):
     print('Getting Amendments...')
     AmendmentServiceClient = Client('http://wslwebservices.leg.wa.gov/amendmentservice.asmx?WSDL')
     getAmendmentsResult = AmendmentServiceClient.service.GetAmendments(currentYear)
+
+    if (getAmendmentsResult == None):
+        return
+
     for obj in getAmendmentsResult:
         args = (obj.Agency, obj.BillId, obj.BillNumber, obj.Description, obj.DocumentExists, obj.Drafter, obj.FloorAction, obj.FloorActionDate, obj.FloorNumber, obj.HtmUrl, obj.LegislativeSession, obj.Name, obj.PdfUrl, obj.SponsorName, obj.Type)
         call_procedure(connection, 'insert_Amendments', args)
@@ -63,6 +67,9 @@ def getCommitteeMeetings(connection):
     print('Getting Committee Meetings...')
     CommitteeMeetingServiceClient = Client('http://wslwebservices.leg.wa.gov/committeemeetingservice.asmx?WSDL')
     getCommitteeMeetingsResult = CommitteeMeetingServiceClient.service.GetCommitteeMeetings(lastWeek, today)
+    
+    if (getCommitteeMeetingsResult == None):
+        return
 
     for obj in getCommitteeMeetingsResult:
         # Get all committees and put them into string lists
@@ -93,7 +100,10 @@ def getCommitteeMeetings(connection):
 def getLegislationIntroducedSince(connection):
     print('Getting LegislationIntroducedSince...')
     LegislationServiceClient = Client('http://wslwebservices.leg.wa.gov/legislationservice.asmx?WSDL')
-    getLegislationIntroducedSinceResult = LegislationServiceClient.service.GetLegislationIntroducedSince(datetime.strptime('2017-01-01' , '%Y-%m-%d'))
+    getLegislationIntroducedSinceResult = LegislationServiceClient.service.GetLegislationIntroducedSince(lastWeek)
+
+    if (getLegislationIntroducedSinceResult == None):
+        return
 
     for obj in getLegislationIntroducedSinceResult:
         LongLegislationType = None
@@ -114,23 +124,71 @@ def getSponsors(connection):
     SponsorServiceClient = Client('http://wslwebservices.leg.wa.gov/sponsorservice.asmx?WSDL')
     getSponsorsResult = SponsorServiceClient.service.GetSponsors(biennium)
 
+    if (getSponsorsResult == None):
+        return
+
     for obj in getSponsorsResult:
         args = (obj.Id, obj.Name, obj.LongName, obj.Agency, obj.Acronym, obj.Party, obj.District, obj.Phone, obj.Email, obj.FirstName, obj.LastName)
         call_procedure(connection, 'insert_GetSponsors', args)
 
 def getRollCalls(connection):
     print('Getting Roll Calls...')
-    RollCallsClient = Client('http://wslwebservices.leg.wa.gov/legislationservice.asmx?WSDL')
-    billData = call_select_query(connection, "SELECT BillNumber FROM LegislationInfo")
-    for BillNumber in billData:
-        print BillNumber[0]
-        getRollCallsResult = RollCallsClient.service.GetRollCalls(biennium, BillNumber[0])
-        for obj in getRollCallsResult:
-            voteList = None
-            print obj.Votes
-            # for vote in obj.Votes:
-            #     print vote.MemberID
-            args = ()
+    RollCallClient = Client('http://wslwebservices.leg.wa.gov/legislationservice.asmx?WSDL')
+
+    query = "SELECT BillNumber, idLegislationInfo FROM LegislationInfo"
+    args = ()
+    billNumbers = select_query(connection, query, args)
+
+    for billNumber in billNumbers:
+        getRollCallResult = RollCallClient.service.GetRollCalls(biennium, billNumber[0])
+        if (getRollCallResult == None):
+            continue
+        # print getRollCallResult
+        for obj in getRollCallResult:
+            # print ""
+            # print billNumber[1]
+            # print obj.Agency
+            # print obj.BillId
+            # print obj.Biennium
+            # print obj.Motion
+            # print obj.SequenceNumber
+            # print obj.VoteDate
+            MemberIdList = ""
+            NameList = ""
+            VoteList = ""
+            VoteLength = 0
+
+            for x,vote in enumerate(obj.Votes.Vote):
+                # Gotta construct lists of all votes to pass to stored proc
+                delimeter = ","
+                if x == 0:
+                    delimeter = ""
+                # print vote.MemberId
+                # print vote.Name
+                # print vote.VOte
+                MemberIdList = MemberIdList + delimeter + str(vote.MemberId)
+                NameList = NameList + delimeter + str(vote.Name)
+                VoteList = VoteList + delimeter + str(vote.VOte)
+                VoteLength = VoteLength + 1
+
+            # Get committee meeting values
+            args =
+                (
+                    idLegislationInfo INT
+                    ,Agency varchar(45)
+                    ,BillId varchar(45)
+                    ,Biennium varchar(45)
+                    ,Motion varchar(45)
+                    ,SequenceNumber varchar(45)
+                    ,VoteDate varchar(45)
+                    ,MemberIdList text
+                    ,NameList text
+                    ,VoteList text
+                    ,VoteLength INT
+                )
+            # Submit this all to mysql stored procedure
+            call_procedure(connection, 'insert_CommitteeMeetingService', args)
+                
 
 # ------------------------------------------------------------------------------------------------------------------------------
 # TABLE INSERTS
@@ -151,12 +209,11 @@ def call_procedure(connection, storedProc, args):
     finally:
         cursor.close()
 
-def call_select_query(connection, query):
+def select_query(connection, query, args):
     try:
         cursor = connection.cursor(buffered=True)
-        cursor.execute(query)
+        cursor.execute(query, args)
         data = cursor.fetchall()
-        connection.commit()
 
     except Exception, e:
         print("Unexpected error:", sys.exc_info()[0])
@@ -165,22 +222,8 @@ def call_select_query(connection, query):
  
     finally:
         cursor.close()
-
+    
     return data
-
-def call_procedure(connection, storedProc, args):
-    try:
-        cursor = connection.cursor(buffered=True)
-        cursor.callproc(storedProc, args)
-        connection.commit()
-
-    except Exception, e:
-        print("Unexpected error:", sys.exc_info()[0])
-        print(e)
-        raise
- 
-    finally:
-        cursor.close()
 
 # ------------------------------------------------------------------------------------------------------------------------------
 # MAIN
@@ -188,10 +231,10 @@ def call_procedure(connection, storedProc, args):
 
 def main():
     connection = connect()
-    # getAmendments(connection)
-    # getCommitteeMeetings(connection)
-    # getLegislationIntroducedSince(connection)
-    # getSponsors(connection)
+    # getAmendments(connection) # Currently working
+    # getCommitteeMeetings(connection) # Currently working
+    # getLegislationIntroducedSince(connection) # Currently working
+    # getSponsors(connection) # Currently working
     getRollCalls(connection)
     connection.close()
  
