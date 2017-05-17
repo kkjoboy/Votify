@@ -14,6 +14,7 @@ biennium = '2017-18'
 currentYear = datetime.now().year
 lastWeek = datetime.now()-timedelta(days=7)
 yesterday = datetime.now()-timedelta(days=1)
+firstOfTheYear = datetime.now().date().replace(month=1, day=1)
 # yesterday = yesterday.strftime('%m/%d/%y')
 today = datetime.now()
 # today = today.strftime('%m/%d/%y')
@@ -45,7 +46,7 @@ def connect():
 # GET METHODS FROM SOAP CLIENT (legwagov)
 # ------------------------------------------------------------------------------------------------------------------------------
 
-def getLegislationTypes():
+def getLegislationTypes(connection):
     LegislationServiceClient = Client('http://wslwebservices.leg.wa.gov/legislationservice.asmx?WSDL')
     getLegislationTypesResult = LegislationServiceClient.service.GetLegislationTypes()
 
@@ -59,6 +60,7 @@ def getAmendments(connection):
         return
 
     for obj in getAmendmentsResult:
+        print('Inserting an amendment...')
         args = (obj.Agency, obj.BillId, obj.BillNumber, obj.Description, obj.DocumentExists, obj.Drafter, obj.FloorAction, obj.FloorActionDate, obj.FloorNumber, obj.HtmUrl, obj.LegislativeSession, obj.Name, obj.PdfUrl, obj.SponsorName, obj.Type)
         call_procedure(connection, 'insert_Amendments', args)
 
@@ -100,7 +102,7 @@ def getCommitteeMeetings(connection):
 def getLegislationIntroducedSince(connection):
     print('Getting LegislationIntroducedSince...')
     LegislationServiceClient = Client('http://wslwebservices.leg.wa.gov/legislationservice.asmx?WSDL')
-    getLegislationIntroducedSinceResult = LegislationServiceClient.service.GetLegislationIntroducedSince(lastWeek)
+    getLegislationIntroducedSinceResult = LegislationServiceClient.service.GetLegislationIntroducedSince(firstOfTheYear)
 
     if (getLegislationIntroducedSinceResult == None):
         return
@@ -217,13 +219,18 @@ def select_query(connection, query, args):
     return data
 
 # ------------------------------------------------------------------------------------------------------------------------------
+# MISC
+# ------------------------------------------------------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------------------------------------------------------
 # MAIN
 # ------------------------------------------------------------------------------------------------------------------------------
 
 def main():
     connection = connect()
-    getAmendments(connection) # Currently working
-    getCommitteeMeetings(connection) # Currently working
+    # getLegislationTypes(connection) # Currently working
+    # getAmendments(connection) # Currently working
+    # getCommitteeMeetings(connection) # Currently working
     getLegislationIntroducedSince(connection) # Currently working
     getSponsors(connection) # Currently working
     getRollCalls(connection) # Currently working

@@ -1,0 +1,103 @@
+CREATE PROCEDURE `insert_CommitteeMeetingService`
+	(
+		Agency varchar(45)
+        ,AgendaId INT
+        ,Building varchar(45)
+        ,Cancelled bool
+        ,City varchar(45)
+        ,ContactInformation varchar(45)
+        ,Date datetime
+        ,RevisedDate datetime
+        ,Room varchar(45)
+        ,State varchar(45)
+        ,ZipCode int
+        ,phoneList text
+        ,acronymList text
+        ,agencyList text
+        ,idList text
+        ,longnameList text
+        ,nameList text
+        ,committeeLength INT
+	)
+
+BEGIN
+	INSERT IGNORE INTO CommitteeMeetings
+    (
+		Agency
+        ,AgendaID
+        ,Building
+        ,Cancelled
+        ,City
+        ,ContactInformation
+        ,Date
+        ,RevisedDate
+        ,Room
+        ,State
+        ,Zipcode
+    )
+    VALUES
+    (
+		Agency
+        ,AgendaId
+        ,Building
+        ,Cancelled
+        ,City
+        ,ContactInformation
+        ,Date
+        ,RevisedDate
+        ,Room
+        ,State
+        ,ZipCode
+    );
+    SET @CommitteeMeetingsID = 0;
+    IF LAST_INSERT_ID() THEN
+		SET @CommitteeMeetingsID = LAST_INSERT_ID();
+	ELSE
+		SET @CommitteeMeetingsID =
+			(
+				SELECT idCommitteeMeeting FROM CommitteeMeetings CM WHERE CM.AgendaID = AgendaId
+            );
+	END IF;
+    SET @CommitteeMeetingsID = LAST_INSERT_ID();
+    
+    SET @COUNT = 0;
+    WHILE (@COUNT <= CommitteeLength) DO
+		INSERT IGNORE INTO Committee
+		(
+			phoneList
+			,acronymList
+			,agencyList
+			,idList
+			,longnameList
+			,nameList
+		)
+		VALUES
+		(
+			SUBSTRING_INDEX(SUBSTRING_INDEX(phoneList, ',', @COUNT), ",", -1)
+            , SUBSTRING_INDEX(SUBSTRING_INDEX(acronymList, ',', @COUNT), ",", -1)
+            , SUBSTRING_INDEX(SUBSTRING_INDEX(agencyList, ',', @COUNT), ",", -1)
+            , CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(idList, ',', @COUNT), ",", -1) AS UNSIGNED)
+            , SUBSTRING_INDEX(SUBSTRING_INDEX(longnameList, ',', @COUNT), ",", -1)
+            , SUBSTRING_INDEX(SUBSTRING_INDEX(nameList, ',', @COUNT), ",", -1)
+        );
+        SET @CommitteeID = 0;
+		IF LAST_INSERT_ID() THEN
+			SET @CommitteeID = LAST_INSERT_ID();
+		ELSE
+			SET @CommitteeID =
+				(
+					SELECT idCommittee FROM Committe C WHERE C.ID = (SELECT CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(idList, ',', @COUNT), ",", -1) AS UNSIGNED))
+				);
+		END IF;
+		INSERT IGNORE INTO CommitteeMeetings_Committees
+			(
+				CommitteeMeetings_idCommitteeMeeting
+                ,Committee_idCommittee
+            )
+		VALUES
+			(
+				@CommitteeMeetingsID
+                ,@CommitteeID
+            );
+	END WHILE;
+END

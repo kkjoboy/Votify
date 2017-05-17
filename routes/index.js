@@ -8,7 +8,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/api/bills', function(req, res) {    
-  connection.query('SELECT * FROM Legislation', function(err, results){
+  connection.query('SELECT * FROM Legislation L WHERE L.LegalTitle IS NOT NULL AND L.Sponsor IS NOT NULL AND L.LongDescription IS NOT NULL GROUP BY L.LegalTitle', function(err, results){
       if(err) {
           throw err;
       }else{
