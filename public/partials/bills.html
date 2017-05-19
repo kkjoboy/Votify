@@ -38,13 +38,14 @@
  <!--ng-repeat="item in filteredBills track by $index"-->
 
   <div class="w3-padding">
-    <div class="w3-card-2 w3-margin-bottom" dir-paginate="item in filteredBills | itemsPerPage: 10">
+    <div class="w3-card-2 w3-margin-bottom" dir-paginate="item in bills | itemsPerPage: 10">
       <header class="w3-container w3-grey">
-        <a href=""><h3>{{item.LegalTitle}}</h3></a>
+        <a ui-sref="single-bill({ BillID : item.BillID })"><h3>{{item.LegalTitle}}</h3></a>
       </header>
       <div class="w3-container">
         <p><strong>Description:</strong> {{item.LongDescription}}</p>
         <p><strong>Sponsor:</strong> {{item.Sponsor}}</p>
+        <p><strong>BillID:</strong> {{item.BillID}}</p>
         <p><strong>Introduced Date:</strong> {{item.IntroducedDate | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
       </div>
     </div>

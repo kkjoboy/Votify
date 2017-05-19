@@ -8,13 +8,25 @@ router.get('/', function(req, res) {
 });
 
 router.get('/api/bills', function(req, res) {    
-  connection.query('SELECT * FROM Legislation L WHERE L.LegalTitle IS NOT NULL AND L.Sponsor IS NOT NULL AND L.LongDescription IS NOT NULL GROUP BY L.LegalTitle', function(err, results){
+  connection.query('SELECT * FROM Legislation L JOIN LegislationInfo LI ON L.LegislationInfo_idLegislationInfo = LI.idLegislationInfo WHERE L.LegalTitle IS NOT NULL AND L.Sponsor IS NOT NULL AND L.LongDescription IS NOT NULL GROUP BY L.LegalTitle', function(err, results){
       if(err) {
           throw err;
       }else{
           res.json(results);
       }
   });
+});
+
+router.post('/api/bills/*', function(req, res) {
+
+  connection.query('SELECT * FROM LegislationInfo LI JOIN RollCall RC ON LI.idLegislationInfo = RC.LegislationInfo_idLegislationInfo JOIN Legislation L ON L.LegislationInfo_idLegislationInfo = LI.idLegislationInfo JOIN Vote V ON RC.idRollCall = V.RollCall_idRollCall JOIN Sponsor S ON S.idSponsor = V.Sponsor_idSponsor WHERE LI.BillID = ?', req.body.BillID, function(err, results){
+      if(err) {
+          throw err;
+      }else{
+          res.json(results);
+      }
+  });
+
 });
 
 router.get('/api/politicians', function(req, res) {    

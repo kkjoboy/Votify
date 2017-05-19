@@ -1,0 +1,55 @@
+<!--
+Active:1
+Agency:"House"
+Biennium:"2017-18"
+BillID:"EHB 1656"
+BillId:"EHB 1656"
+BillNumber:1656
+EngrossedVersion:1
+LegislationInfo_idLegislationInfo:952
+Motion:"Final Passage"
+OriginalAgency:"House"
+SequenceNumber:15
+ShortLegislationType:"B"
+SubstituteVersion:0
+VoteDate:"2017-03-08T08:00:00.000Z"
+idLegislationInfo:952
+idRollCall:441
+-->
+
+<br>
+<br>
+<br>
+<div class="w3-row-padding">
+
+  <div class="w3-col m6 l6">
+    <div class="w3-container">
+        <h2>Bill Information:</h2>
+        <p>Title: {{bill[0].LegalTitle}}</p>
+        <p>Description: {{bill[0].LongDescription}}</p>
+        <p>Active: {{bill[0].Active}}</p>
+        <p>Agency: {{bill[0].Agency}}</p>
+        <p>BillID: {{bill[0].BillID}}</p>
+        <p>Motion: {{bill[0].Motion}}</p>
+    </div>
+  </div>
+
+  <div class="w3-col m6 l6">
+    <div class="w3-container">
+        <h2>Full Bill:</h2>
+        <p>Whoops, we gotta mine out the pdf links to embed in the site!</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="w3-row-padding">
+
+    <div class="w3-col m6 l6">
+        <div class="w3-container">
+            <h2>Roll Call:</h2>
+            <p ng-repeat="item in bill">{{item.FirstName}} {{item.LastName}} : {{item.Vote}} : {{item.Party}}</p>
+        </div>
+  </div>
+
+</div>
