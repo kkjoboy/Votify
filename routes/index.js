@@ -39,6 +39,18 @@ router.get('/api/politicians', function(req, res) {
   });
 });
 
+router.post('/api/politicians/*', function(req, res) {
+
+  connection.query('SELECT * FROM Sponsor S WHERE S.idSponsor = ?', req.body.idSponsor, function(err, results){
+      if(err) {
+          throw err;
+      }else{
+          res.json(results);
+      }
+  });
+
+});
+
 router.get('*', function(req, res) {
   res.render('index');
 });

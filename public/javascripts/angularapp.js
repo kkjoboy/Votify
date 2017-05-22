@@ -19,9 +19,9 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'angularUt
 		templateUrl: '/partials/articles.html',
 		controller: 'ArtCtrl'
 	})
-	.state('profile', {
-		url: '/profile',
-		templateUrl: '/partials/profile.html',
+	.state('pol_profile', {
+		url: '/politicians/:idSponsor',
+		templateUrl: '/partials/pol_profile.html',
 		controller: 'ProfileCtrl'
 	})
 	.state('politician', {
@@ -38,9 +38,6 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'angularUt
 		url: '/bills/:BillID',
 		templateUrl: '/partials/singleBill.html',
 		controller: 'SingleBillCtrl'
-		// params: {
-		// 	billID: null,
-		// }
 	})
 	$urlRouterProvider.otherwise('/'); //other route
 	$locationProvider.html5Mode(true);
@@ -70,8 +67,26 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'angularUt
 
 
 }])
-.controller('ProfileCtrl', ['$scope', '$http', function($scope, $http) {
+.controller('ProfileCtrl', ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
 
+	var idSponsor = $stateParams.idSponsor;
+	console.log(idSponsor);
+	$scope.idSponsor = idSponsor;
+	var data = 	{
+					idSponsor : $scope.idSponsor
+                };
+	
+	$http.post('/api/politicians/'+$scope.idSponsor, data)
+		.success(function(data, status, headers, config) {
+			console.log('Success');
+			$scope.profileData = data;
+			console.log(data);
+		})
+		.catch(function(data, status, headers, config) {
+			console.log('catch');
+			console.log(status);
+			console.log(data);
+		});
 
 }])
 .controller('PolCtrl', ['$scope', '$http', function($scope, $http) {

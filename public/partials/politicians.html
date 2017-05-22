@@ -33,7 +33,7 @@
         ng-if="politicians[i] != null">
         <img src="{{politicians[i].PictureFilePath}}" alt="Politician" style="width:100%" class="w3-hover-opacity">
         <div class="w3-container w3-white">
-          <h3><a ui-sref='profile'>{{politicians[i].Name}}</a></h3>
+          <h3><a ui-sref='pol_profile({ idSponsor : politicians[i].idSponsor })'>{{politicians[i].Name}}</a></h3>
           <p>{{politicians[i].Agency}}</p>
           <p>{{politicians[i].District}}</p>
           <p>{{politicians[i].Email}}</p>
