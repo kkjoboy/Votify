@@ -168,6 +168,8 @@ h3:hover {
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="javascripts/angularapp.js"></script>
   <script src="javascripts/d3.js"></script>
+  <script src="javascripts/d32.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="javascripts/dirPagination.js"></script>
   <!--<script src="javascripts/script.js"></script>-->
 </head>
@@ -196,6 +198,53 @@ input[type=text]:focus {
 h3:hover {
     text-decoration: underline;
 }
+@media screen and (min-width: 768px) {
+	body {
+		font-size: 20px;
+	}
+	h2 {
+		text-align: center;
+	}
+	nav {
+		background-color: rgba(24, 28, 34, 0.8);
+	}
+	#nav_bar li {
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+
+	.heading {
+		background-image: url("public/images/banner-sm.jpg");
+		background-repeat: no-repeat;
+		background-size: cover;
+		text-align: right;
+		color: white;
+		min-height: 550px;
+	}
+
+	.story-img {
+		max-height: 400px;
+	}
+
+	footer .col-sm-9 {
+		text-align: right;
+	}
+
+
+@media screen and (min-width: 922px) {
+	.heading {
+		background-image: url("public/images/banner-md.jpg");
+	}
+	#title {
+		font-size: 4em;
+	}
+}
+@media screen and (min-width: 1200px) {
+	.heading {
+		background-image: url("public/images/mount.jpg");
+	}
+}
+}
 </style>
 <body>
 
@@ -214,9 +263,10 @@ h3:hover {
   </div>
 </div>
 
-<main>
-  <div ui-view></div>
-</main>
+<div class="container">
+  <div ui-view>
+  </div>
+</div>
 
 <!-- Footer -->
 <footer class="w3-center w3-light-grey w3-padding-48 w3-large">
