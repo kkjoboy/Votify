@@ -29,7 +29,7 @@
           <br>
 
           <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Committees</b></p>
-          <p>{{profileData[0].Name}}</p>
+          <p ng-repeat="val in profileData">{{val.LongName}}</p>
           <br>
         </div>
       </div><br>
@@ -45,20 +45,24 @@
         <h5 class="w3-opacity"><b>Average Roll Call Attendance by Year</b></h5>
         <div id="vis1" class="container">
         </div>
+
+        <h5 class="w3-opacity"><b>Voting Patterns by Political Viewpoint</b></h5>
+          <div id="vis2" class="container">
+        </div>  
       </div>
 
       <div class="w3-container w3-card-2 w3-white">
-        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>About</h2>
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Recent Activity</h2>
         <div class="w3-container">
-          <h5 class="w3-opacity"><b>Past Positions</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Position 1</h6>
-          <p>My first politcal position</p>
+          <h5 class="w3-opacity"><b>Bill 12321</b></h5>
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>May 23, 2017</h6>
+          <p>Voted "Nae". Bill did not pass.</p>
           <hr>
         </div>
         <div class="w3-container">
-          <h5 class="w3-opacity"><b>College</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>2013 - 2015</h6>
-          <p>Master Degree</p>
+          <h5 class="w3-opacity"><b>Bill 21341</b></h5>
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>May 16, 2017</h6>
+          <p>Voted "Yae". Bill did pass.</p>
           <hr>
         </div>
       </div>
