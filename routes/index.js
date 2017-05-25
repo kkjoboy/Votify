@@ -41,7 +41,7 @@ router.get('/api/politicians', function(req, res) {
 
 router.post('/api/politicians/*', function(req, res) {
 
-  connection.query('SELECT * FROM Sponsor S WHERE S.idSponsor = ?', req.body.idSponsor, function(err, results){
+  connection.query('SELECT * FROM Sponsor S JOIN Sponsor_Committee SC ON S.idSponsor = SC.Sponsor_idSponsor JOIN Committee C ON SC.Committee_idCommittee = C.idCommittee WHERE S.idSponsor = ?', req.body.idSponsor, function(err, results){
       if(err) {
           throw err;
       }else{

@@ -60,11 +60,11 @@ def getAmendments(connection):
         return
 
     for obj in getAmendmentsResult:
-        print('Inserting an amendment...')
         args = (obj.Agency, obj.BillId, obj.BillNumber, obj.Description, obj.DocumentExists, obj.Drafter, obj.FloorAction, obj.FloorActionDate, obj.FloorNumber, obj.HtmUrl, obj.LegislativeSession, obj.Name, obj.PdfUrl, obj.SponsorName, obj.Type)
         call_procedure(connection, 'insert_Amendments', args)
 
 # Adds data into the Committee, CommitteeMeetings, and CommitteeMeetings_Committees tables
+# DEFUNCT
 def getCommitteeMeetings(connection):
     print('Getting Committee Meetings...')
     CommitteeMeetingServiceClient = Client('http://wslwebservices.leg.wa.gov/committeemeetingservice.asmx?WSDL')
@@ -98,6 +98,55 @@ def getCommitteeMeetings(connection):
         args = (obj.Agency, obj.AgendaId, obj.Building, obj.Cancelled, obj.City, obj.ContactInformation, obj.Date, obj.RevisedDate, obj.Room, obj.State, obj.ZipCode, phoneList, acronymList, agencyList, idList, longnameList, nameList, committeeLength)
         # Submit this all to mysql stored procedure
         call_procedure(connection, 'insert_CommitteeMeetingService', args)
+
+def getCommittees(connection):
+    print('Getting Committees...')
+    CommitteeServiceClient = Client('http://wslwebservices.leg.wa.gov/committeeservice.asmx?WSDL')
+    getActiveCommitteesResult = CommitteeServiceClient.service.GetActiveCommittees()
+
+    for committee in getActiveCommitteesResult:
+        # print committee.Id
+        # print committee.Name
+        # print committee.LongName
+        # print committee.Agency
+        # print committee.Acronym
+        # print committee.Phone
+        args = (committee.Id, committee.Name, committee.LongName, committee.Agency, committee.Acronym, committee.Phone, datetime.now())
+        call_procedure(connection, 'insert_ActiveCommittees', args)
+
+def getSponsorCommittees(connection):
+    print('Getting Sponsor Committees...')
+    CommitteeServiceClient = Client('http://wslwebservices.leg.wa.gov/committeeservice.asmx?WSDL')
+
+    query = "SELECT idCommittee, Agency, Name FROM Committee"
+    args = ()
+    committeeInfo = select_query(connection, query, args)
+
+    for committee in committeeInfo:
+        idCommittee = committee[0]
+        # print committee[0]
+        # print committee[1]
+        # print committee[2]
+        if (committee[1] not in ["House", "Senate"]):
+            continue
+        getSponsorCommitteesResult = CommitteeServiceClient.service.GetCommitteeMembers(biennium, committee[1], committee[2])
+        if (getSponsorCommitteesResult == None):
+            continue
+        for sponsor in getSponsorCommitteesResult:
+            # print sponsor.Id
+            # print sponsor.Name
+            # print sponsor.LongName
+            # print sponsor.Agency
+            # print sponsor.Acronym
+            # print sponsor.Party
+            # print sponsor.District
+            # print sponsor.Phone
+            # print sponsor.Email
+            # print sponsor.FirstName
+            # print sponsor.LastName
+            args = (sponsor.Id, sponsor.Name, sponsor.LongName, sponsor.Agency, sponsor.Acronym, sponsor.Party, sponsor.District, sponsor.Phone, sponsor.Email, sponsor.FirstName, sponsor.LastName, committee[0])
+            call_procedure(connection, 'insert_SponsorCommittee', args)
+
 
 def getLegislationIntroducedSince(connection):
     print('Getting LegislationIntroducedSince...')
@@ -230,10 +279,12 @@ def main():
     connection = connect()
     # getLegislationTypes(connection) # Currently working
     # getAmendments(connection) # Currently working
-    # getCommitteeMeetings(connection) # Currently working
-    getLegislationIntroducedSince(connection) # Currently working
-    getSponsors(connection) # Currently working
-    getRollCalls(connection) # Currently working
+    # getSponsors(connection) # Currently working
+    # getCommitteeMeetings(connection) # Currently defunct
+    # getCommittees(connection) # Currently Working
+    getSponsorCommittees(connection) # Currently Working
+    # getLegislationIntroducedSince(connection) # Currently working
+    # getRollCalls(connection) # Currently working
     connection.close()
  
 if __name__ == '__main__':

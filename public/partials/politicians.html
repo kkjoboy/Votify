@@ -1,8 +1,8 @@
 <br>
-  <br>
-  <br>
+<br>
+<br>
 <!-- First Photo Grid-->
-  <div class="w3-row-padding">
+  <div class="w3-row-padding w3-margin-bottom">
     <div class="w3-third w3-container w3-margin-bottom w3-right">
       <div class="w3-container w3-white">
         <input type="text" name="search" placeholder="Search..">
@@ -31,14 +31,26 @@
     <div class="w3-third w3-container w3-margin-bottom" 
         ng-repeat="i in [$index, $index + 1, $index + 2]" 
         ng-if="politicians[i] != null">
-        <img src="{{politicians[i].PictureFilePath}}" alt="Politician" style="width:100%" class="w3-hover-opacity">
-        <div class="w3-container w3-white">
+        <a ui-sref='pol_profile({ idSponsor : politicians[i].idSponsor })' style="display: block; margin: auto; width:75%;"><img src="{{politicians[i].PictureFilePath}}" alt="{{politicians[i].Name}}" style="width:100%" class="w3-hover-opacity"></a>
+        <div class="w3-container w3-padding" style="margin-left: 10%">
           <h3><a ui-sref='pol_profile({ idSponsor : politicians[i].idSponsor })'>{{politicians[i].Name}}</a></h3>
-          <p>{{politicians[i].Agency}}</p>
-          <p>{{politicians[i].District}}</p>
-          <p>{{politicians[i].Email}}</p>
-          <p>{{politicians[i].Party}}</p>
-          <p>{{politicians[i].Phone}}</p>
+          <div class="w3-margin-left">
+            <p>
+              <strong>Agency:</strong> {{politicians[i].Agency}}
+            </p>
+            <p>
+              <strong>District:</strong> {{politicians[i].District}}
+            </p>
+            <p>
+              <strong>Email:</strong> {{politicians[i].Email}}
+            </p>
+            <p>
+              <strong>Party:</strong> {{politicians[i].Party === "D" ? "Democrat" : "Republican"}}
+            </p>
+            <p>
+              <strong>Phone:</strong> {{politicians[i].Phone}}
+            </p>
+          </div>
         </div>
     </div>
   </div>

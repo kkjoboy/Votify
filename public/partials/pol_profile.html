@@ -16,7 +16,7 @@
         </div>
         <div class="w3-container">
         <h2>{{profileData[0].Name}}</h2>
-          <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>{{profileData[0].Agency}} ({{profileData[0].Party}})</p>
+          <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>{{profileData[0].Agency === "House" ? "Representative" : "Senator"}} ({{profileData[0].Party === "D" ? "Democrat" : "Republican"}})</p>
           <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>District {{profileData[0].District}}</p>
           <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>{{profileData[0].Email}}</p>
           <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>{{profileData[0].Phone}}</p>
@@ -29,9 +29,7 @@
           <br>
 
           <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Committees</b></p>
-          <p>Local Government (Chair)</p>
-          <p>Public Safety</p> 
-          <p>State Government, Elections & Information Technology</p>
+          <p>{{profileData[0].Name}}</p>
           <br>
         </div>
       </div><br>
