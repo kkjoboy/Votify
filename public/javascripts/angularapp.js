@@ -93,9 +93,7 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'angularUt
 
 	$http.get('/api/politicians').
 		success(function(data, status, headers, config) {
-			console.log('success');
 			$scope.politicians = data;
-			console.log(data);
 		}).
 		catch(function(data, status, headers, config) {
 		console.log('catch');
@@ -108,9 +106,7 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'angularUt
 
 	$http.get('/api/bills').
 		success(function(data, status, headers, config) {
-			console.log('Success');
 			$scope.bills = data;
-			console.log(data);
 
 		}).
 		catch(function(data, status, headers, config) {
@@ -128,6 +124,8 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'angularUt
 					BillID : $scope.BillID
                 };
 	
+	console.log(data);
+
 	$http.post('/api/bills/'+$scope.BillID, data)
 		.success(function(data, status, headers, config) {
 			console.log('Success');

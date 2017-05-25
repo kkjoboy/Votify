@@ -277,14 +277,14 @@ def select_query(connection, query, args):
 
 def main():
     connection = connect()
-    # getLegislationTypes(connection) # Currently working
-    # getAmendments(connection) # Currently working
-    # getSponsors(connection) # Currently working
+    getLegislationTypes(connection) # Currently working
+    getAmendments(connection) # Currently working
+    getSponsors(connection) # Currently working
     # getCommitteeMeetings(connection) # Currently defunct
-    # getCommittees(connection) # Currently Working
+    getCommittees(connection) # Currently Working
     getSponsorCommittees(connection) # Currently Working
-    # getLegislationIntroducedSince(connection) # Currently working
-    # getRollCalls(connection) # Currently working
+    getLegislationIntroducedSince(connection) # Currently working
+    getRollCalls(connection) # Currently working
     connection.close()
  
 if __name__ == '__main__':

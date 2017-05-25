@@ -25,12 +25,10 @@ idRollCall:441
   <div class="w3-col m6 l6">
     <div class="w3-container">
         <h2>Bill Information:</h2>
-        <p>Title: {{bill[0].LegalTitle}}</p>
-        <p>Description: {{bill[0].LongDescription}}</p>
-        <p>Active: {{bill[0].Active}}</p>
-        <p>Agency: {{bill[0].Agency}}</p>
-        <p>BillID: {{bill[0].BillID}}</p>
-        <p>Motion: {{bill[0].Motion}}</p>
+        <p>Title: {{bill[0][0][0].LegalTitle}}</p>
+        <p>Description: {{bill[0][0][0].LongDescription}}</p>
+        <p>Active: {{bill[0][0][0].Active}}</p>
+        <p>BillID: {{bill[0][0][0].BillID}}</p>
     </div>
   </div>
 
@@ -43,13 +41,47 @@ idRollCall:441
 
 </div>
 
-<div class="w3-row-padding">
+<div class="w3-row-padding w3-margin-bottom">
+    <h2>Roll Call:</h2>
 
-    <div class="w3-col m6 l6">
-        <div class="w3-container">
-            <h2>Roll Call:</h2>
-            <p ng-repeat="item in bill">{{item.FirstName}} {{item.LastName}} : {{item.Vote}} : {{item.Party}}</p>
+    <div ng-if="bill[1][0].length === 0">
+        <div class="w3-center">
+            <h3>No Roll Call has been taken on this bill</h3>
         </div>
-  </div>
+    </div>
+
+    <div ng-if="bill[1][0].length !== 0">
+        <div class="w3-center">
+            <p>Agency: {{bill[1][0][0].Agency}}</p>
+            <p>Motion: {{bill[1][0][0].Motion}}</p>
+        </div>
+
+        <div class="w3-col m4 l4">
+            <div class="w3-container w3-center">
+                <h3>Yea Votes</h3>
+                <div ng-repeat="item in bill[1][0]" ng-if="item.Vote === 'Yea'">
+                    <strong>{{item.FirstName}} {{item.LastName}}</strong> : {{item.Vote}} : {{item.Party}}
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-col m4 l4">
+            <div class="w3-container w3-center">
+                <h3>Nay Votes</h3>
+                <div ng-repeat="item in bill[1][0]" ng-if="item.Vote === 'Nay'">
+                    <strong>{{item.FirstName}} {{item.LastName}}</strong> : {{item.Vote}} : {{item.Party}}
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-col m4 l4">
+            <div class="w3-container w3-center">
+                <h3>Excused/Absent Votes</h3>
+                <div ng-repeat="item in bill[1][0]" ng-if="item.Vote === 'Excused' || item.Vote === 'Absent'">
+                    <strong>{{item.FirstName}} {{item.LastName}}</strong> : {{item.Vote}} : {{item.Party}}
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
