@@ -1,5 +1,7 @@
-let id = 1;
+let id = 7;
 console.log(id);
+
+var totals = [98, 147, 147, 147];
 
 $(function() {
     // Graph margin settings
@@ -33,7 +35,7 @@ $(function() {
             .attr('height', drawHeight);
 
     // Load data in using d3's csv function.
-    d3.csv('data/rollcallcopy.csv', function(data) {
+    d3.csv('data/rollcall.csv', function(data) {
         /************************************** Data prep ***************************************/
         data = data.filter(function(row){
             return row['idSponsor'] == id
