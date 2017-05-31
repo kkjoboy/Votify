@@ -4,7 +4,7 @@ var globalId;
 
 angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'angularUtils.directives.dirPagination']) //ngSanitize for HTML displaying
 
-.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+.config(function($stateProvider, $urlRouterProvider, $locationProvider, $sceDelegateProvider) {
 	$stateProvider
 	.state('home', {
 		url: '/', 
@@ -43,6 +43,12 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'angularUt
 	})
 	$urlRouterProvider.otherwise('/'); //other route
 	$locationProvider.html5Mode(true);
+	$sceDelegateProvider.resourceUrlWhitelist([
+		// Allow same origin resource loads.
+		'self',
+		// Allow loading from our assets domain. **.
+		'http://app.leg.wa.gov/**'
+	]);
 })
 
 //home page settings

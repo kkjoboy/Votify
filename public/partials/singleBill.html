@@ -27,17 +27,17 @@ idRollCall:441
   <div class="w3-col m6 l6">
     <div class="w3-container">
         <h2>Bill Information:</h2>
-        <p>Title: {{bill[0][0][0].LegalTitle}}</p>
-        <p>Description: {{bill[0][0][0].LongDescription}}</p>
-        <p>Active: {{bill[0][0][0].Active}}</p>
-        <p>BillID: {{bill[0][0][0].BillID}}</p>
+        <p><strong>Title:</strong><br> {{bill[0][0][0].LegalTitle}}</p>
+        <p><strong>Description:</strong><br> {{bill[0][0][0].LongDescription}}</p>
+        <p><strong>Active:</strong><br> {{bill[0][0][0].Active}}</p>
+        <p><strong>BillID:</strong><br> {{bill[0][0][0].BillID}}</p>
     </div>
   </div>
 
   <div class="w3-col m6 l6">
     <div class="w3-container">
         <h2>Full Bill:</h2>
-        <embed src="{{bill[2][0][0]}}" width="500" height="375" type='application/pdf'>
+        <embed src="{{bill[2][0][0].PdfUrl}}" width="100%" height="600px" type='application/pdf'>
     </div>
   </div>
 

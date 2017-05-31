@@ -12,14 +12,14 @@
     
       <div class="w3-white w3-text-grey w3-card-4">
         <div class="w3-display-container">
-          <img src="{{profileData[0].PictureFilePath}}" style="width:100%" alt="Avatar">
+          <img src="{{profileData[0][0][0].PictureFilePath}}" style="width:100%" alt="Avatar">
         </div>
         <div class="w3-container">
-        <h2>{{profileData[0].Name}}</h2>
-          <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>{{profileData[0].Agency === "House" ? "Representative" : "Senator"}} ({{profileData[0].Party === "D" ? "Democrat" : "Republican"}})</p>
-          <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>District {{profileData[0].District}}</p>
-          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>{{profileData[0].Email}}</p>
-          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>{{profileData[0].Phone}}</p>
+        <h2>{{profileData[0][0][0].FirstName}} {{profileData[0][0][0].LastName}}</h2>
+          <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>{{profileData[0][0][0].Agency === "House" ? "Representative" : "Senator"}} ({{profileData[0].Party === "D" ? "Democrat" : "Republican"}})</p>
+          <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>District {{profileData[0][0][0].District}}</p>
+          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>{{profileData[0][0][0].Email}}</p>
+          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>{{profileData[0][0][0].Phone}}</p>
           <hr>
 
           <!--<p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i>Olympia Address</b></p>
@@ -29,7 +29,7 @@
           <br>-->
 
           <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Committees</b></p>
-          <p ng-repeat="val in profileData">{{val.LongName}}</p>
+          <p ng-repeat="val in profileData[0][0]">{{val.LongName}}</p>
           <br>
         </div>
       </div><br>
@@ -43,7 +43,7 @@
       <div class="w3-container w3-card-2 w3-white w3-margin-bottom">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Roll Call and Voting Data</h2>
         <h5 class="w3-opacity"><b>Roll Call Attendance by Month for 2017</b></h5>
-        <p>This chart shows how often {{profileData[0].Name}} attends meetings for voting on bills for each month of 2017.</p>
+        <p>This chart shows how often {{profileData[0].FirstName}} {{profileData[0].LastName}} attends meetings for voting on bills for each month of 2017.</p>
         <div id="vis1" class="container">
         </div>
 
@@ -53,10 +53,12 @@
       </div>
 
       <div class="w3-container w3-card-2 w3-white">
-        <div ng-repeat="val in profileData" class="w3-container">
-          <h5 class="w3-opacity"><b>{{val.ID}}</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>{{val.Timestamp}}</h6>
-          <p>Voted {{val.Vote}}.</p>
+        <h3>Recent Voting: </h3>
+        <div ng-repeat="val in profileData[1][0]" class="w3-container">
+          <h5 class="w3-opacity"><b><strong>BillID:</strong> {{val.BillID}}</b></h5>
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>{{val.VoteDate}}</h6>
+          <p>Voted <strong>{{val.Vote}}</strong></p>
+          <p><strong>Description:</strong> <br>{{val.LongDescription}}</p>
           <hr>
         </div>
       </div>

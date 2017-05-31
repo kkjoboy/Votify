@@ -38,37 +38,13 @@ router.get('/api/bills', function(req, res) {
 
 router.post('/api/bills/*', function(req, res) {
 
-    // connection.query('SELECT * FROM LegislationInfo LI JOIN RollCall RC ON LI.idLegislationInfo = RC.LegislationInfo_idLegislationInfo JOIN Legislation L ON L.LegislationInfo_idLegislationInfo = LI.idLegislationInfo JOIN Vote V ON RC.idRollCall = V.RollCall_idRollCall JOIN Sponsor S ON S.idSponsor = V.Sponsor_idSponsor WHERE LI.BillID = ?', req.body.BillID, function(err, results){
-    //     if(err) {
-    //         throw err;
-    //     }else{
-    //         res.json(results);
-    //     }
-    // });
-
     function getBillInformation() {
-        // connection.query('SELECT * FROM LegislationInfo LI WHERE LI.BillID = ?', req.body.BillID, function(err, results){
-        //     if(err) {
-        //         throw err;
-        //     }else{
-        //         return JSON.stringify(results);
-        //     }
-        // });
-
         var defered = Q.defer();
         connection.query('SELECT * FROM LegislationInfo LI JOIN Legislation L ON L.LegislationInfo_idLegislationInfo = LI.idLegislationInfo WHERE LI.BillID = ?', req.body.BillID, defered.makeNodeResolver());
         return defered.promise;
     }
     
     function getBillRollCall() {
-        // connection.query('SELECT * FROM RollCall RC JOIN Vote V ON RC.idRollCall = V.RollCall_idRollCall JOIN Sponsor S ON S.idSponsor = V.Sponsor_idSponsor WHERE RC.BillID = ?', req.body.BillID, function(err, results){
-        //     if(err) {
-        //         throw err;
-        //     }else{
-        //         return JSON.stringify(results);
-        //     }
-        // });
-
         var defered = Q.defer();
         connection.query('SELECT * FROM RollCall RC JOIN Vote V ON RC.idRollCall = V.RollCall_idRollCall JOIN Sponsor S ON S.idSponsor = V.Sponsor_idSponsor WHERE RC.BillID = ?', req.body.BillID, defered.makeNodeResolver());
         return defered.promise;
@@ -76,33 +52,13 @@ router.post('/api/bills/*', function(req, res) {
 
     function getLegislativeDocuments() {
         var defered = Q.defer();
-        connection.query('SELECT * FROM LegislativeDocument LD WHERE LD.BillID = ?', req.body.BillID, defered.makeNodeResolver());
+        connection.query('SELECT * FROM LegislativeDocument LD WHERE LD.BillID = ? AND LD.Class = "Bills"', req.body.BillID, defered.makeNodeResolver());
         return defered.promise;
     }
     
     Q.all([getBillInformation(),getBillRollCall(),getLegislativeDocuments()]).then(function(results){
-        // console.log(JSON.stringify(results));
         res.send(JSON.stringify(results));
-        // Hint : your third query would go here
     });
-
-    // function getBillInformation() {
-    //     var defered = Q.defer();
-    //     connection.query('SELECT * FROM LegislationInfo LI WHERE LI.BillID = ?', req.body.BillID, defered.makeNodeResolver());
-    //     return defered.promise;
-    // }
-
-    // function getBillRollCall() {
-    //     var defered = Q.defer();
-    //     connection.query('SELECT * FROM RollCall RC JOIN Vote V ON RC.idRollCall = V.RollCall_idRollCall JOIN Sponsor S ON S.idSponsor = V.Sponsor_idSponsor WHERE RC.BillID = ?', req.body.BillID, defered.makeNodeResolver());
-    //     return defered.promise;
-    // }
-
-    // Q.all([getBillInformation(),getBillRollCall()]).then(function(results){
-    //     res.send(JSON.stringify(results[0][0][0].solution+results[1][0][0].solution));
-    //     // Hint : your third query would go here
-    // });
-
 });
 
 router.get('/api/politicians', function(req, res) {    
@@ -117,12 +73,28 @@ router.get('/api/politicians', function(req, res) {
 
 router.post('/api/politicians/*', function(req, res) {
 
-    connection.query('SELECT * FROM Sponsor S JOIN Sponsor_Committee SC ON S.idSponsor = SC.Sponsor_idSponsor JOIN Committee C ON SC.Committee_idCommittee = C.idCommittee WHERE S.idSponsor = ?', req.body.idSponsor, function(err, results){
-        if(err) {
-            throw err;
-        }else{
-            res.json(results);
-        }
+    // connection.query('SELECT * FROM Sponsor S JOIN Sponsor_Committee SC ON S.idSponsor = SC.Sponsor_idSponsor JOIN Committee C ON SC.Committee_idCommittee = C.idCommittee WHERE S.idSponsor = ?', req.body.idSponsor, function(err, results){
+    //     if(err) {
+    //         throw err;
+    //     }else{
+    //         res.json(results);
+    //     }
+    // });
+
+    function getFunc1() {
+        var defered = Q.defer();
+        connection.query('SELECT * FROM Sponsor S JOIN Sponsor_Committee SC ON S.idSponsor = SC.Sponsor_idSponsor JOIN Committee C ON SC.Committee_idCommittee = C.idCommittee WHERE S.idSponsor = ?', req.body.idSponsor, defered.makeNodeResolver());
+        return defered.promise;
+    }
+
+    function getFunc2() {
+        var defered = Q.defer();
+        connection.query('SELECT V.Vote, L.LongDescription, RC.VoteDate, RC.BillID FROM Sponsor S JOIN Vote V ON S.idSponsor = V.Sponsor_idSponsor JOIN RollCall RC ON RC.idRollCall = V.RollCall_idRollCall JOIN LegislationInfo LI ON RC.BillId = LI.BillID JOIN Legislation L ON L.LegislationInfo_idLegislationInfo = LI.idLegislationInfo WHERE S.idSponsor = ? ORDER BY RC.VoteDate DESC LIMIT 5', req.body.idSponsor, defered.makeNodeResolver());
+        return defered.promise;
+    }
+    
+    Q.all([getFunc1(),getFunc2()]).then(function(results){
+        res.send(JSON.stringify(results));
     });
 
 });
