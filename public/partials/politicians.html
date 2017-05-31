@@ -3,7 +3,7 @@
 <br>
 <!-- First Photo Grid-->
   <div class="w3-row-padding w3-margin-bottom">
-    <div class="w3-third w3-container w3-margin-bottom w3-right">
+    <!--<div class="w3-third w3-container w3-margin-bottom w3-right">
       <div class="w3-container w3-white">
         <input type="text" name="search" id="search" ng-model="searchQuery" placeholder="Search..">
       </div>
@@ -23,11 +23,19 @@
         <a href="#" class="w3-bar-item w3-button">District 2</a>
         <a href="#" class="w3-bar-item w3-button">District 3</a>
       </div>
-    </div>
+    </div>-->
+
+    <!--Filter-->
+    <!--<select ng-model="filterItem.store" ng-options="item.name for item in filterOptions.stores"></select>-->
+    
+    <!--Sort:-->
+    <!--<select ng-model="sortItem.store" ng-options="item.name for item in sortOptions.stores">
+    </select>-->
+
   </div>
   
   <!--THIS IS WHAT-->
-  <div class="w3-row-padding" ng-repeat="item in politicians track by $index" ng-if="$index % 3 == 0">
+  <!--<div class="w3-row-padding" ng-repeat="item in politicians track by $index" ng-if="$index % 3 == 0">
     <div class="w3-third w3-container w3-margin-bottom" 
         ng-repeat="i in [$index, $index + 1, $index + 2]" 
         ng-if="politicians[i] != null">
@@ -52,11 +60,106 @@
             </p>
           </div>
         </div>
+    </div>-->
+
+    <div class="w3-row-padding" ng-repeat="item in politicians | orderBy:'District':reverse | filter:customFilter" ng-switch on="$index % 3">
+      <div class="w3-third w3-container w3-margin-bottom" ng-switch-when="0">
+          <a ui-sref='pol_profile({ idSponsor : politicians[$index].idSponsor })' style="display: block; margin: auto; width:75%;"><img src="{{politicians[$index].PictureFilePath}}" alt="{{politicians[i].Name}}" style="width:100%" class="w3-hover-opacity"></a>
+          <div class="w3-container w3-padding" style="margin-left: 10%">
+            <h3><a ui-sref='pol_profile({ idSponsor : politicians[$index].idSponsor })'>{{politicians[$index].Name}}</a></h3>
+            <div class="w3-margin-left">
+              <p>
+                <strong>Agency:</strong> {{politicians[$index].Agency}}
+              </p>
+              <p>
+                <strong>District:</strong> {{politicians[$index].District}}
+              </p>
+              <p>
+                <strong>Email:</strong> {{politicians[$index].Email}}
+              </p>
+              <p>
+                <strong>Party:</strong> {{politicians[$index].Party === "D" ? "Democrat" : "Republican"}}
+              </p>
+              <p>
+                <strong>Phone:</strong> {{politicians[$index].Phone}}
+              </p>
+            </div>
+          </div>
+      </div>
+
+      <div class="w3-third w3-container w3-margin-bottom" ng-switch-when="0">
+        <span ng-show="politicians[$index+1]">
+          <a ui-sref='pol_profile({ idSponsor : politicians[$index+1].idSponsor })' style="display: block; margin: auto; width:75%;"><img src="{{politicians[$index+1].PictureFilePath}}" alt="{{politicians[i].Name}}" style="width:100%" class="w3-hover-opacity"></a>
+          <div class="w3-container w3-padding" style="margin-left: 10%">
+            <h3><a ui-sref='pol_profile({ idSponsor : politicians[$index+1].idSponsor })'>{{politicians[$index+1].Name}}</a></h3>
+            <div class="w3-margin-left">
+              <p>
+                <strong>Agency:</strong> {{politicians[$index+1].Agency}}
+              </p>
+              <p>
+                <strong>District:</strong> {{politicians[$index+1].District}}
+              </p>
+              <p>
+                <strong>Email:</strong> {{politicians[$index+1].Email}}
+              </p>
+              <p>
+                <strong>Party:</strong> {{politicians[$index+1].Party === "D" ? "Democrat" : "Republican"}}
+              </p>
+              <p>
+                <strong>Phone:</strong> {{politicians[$index+1].Phone}}
+              </p>
+            </div>
+          </div>
+        </span>
+      </div>
+
+      <div class="w3-third w3-container w3-margin-bottom" ng-switch-when="0">
+        <span ng-show="politicians[$index+2]">
+          <a ui-sref='pol_profile({ idSponsor : politicians[$index+2].idSponsor })' style="display: block; margin: auto; width:75%;"><img src="{{politicians[$index+2].PictureFilePath}}" alt="{{politicians[i].Name}}" style="width:100%" class="w3-hover-opacity"></a>
+          <div class="w3-container w3-padding" style="margin-left: 10%">
+            <h3><a ui-sref='pol_profile({ idSponsor : politicians[$index+2].idSponsor })'>{{politicians[$index+2].Name}}</a></h3>
+            <div class="w3-margin-left">
+              <p>
+                <strong>Agency:</strong> {{politicians[$index+2].Agency}}
+              </p>
+              <p>
+                <strong>District:</strong> {{politicians[$index+2].District}}
+              </p>
+              <p>
+                <strong>Email:</strong> {{politicians[$index+2].Email}}
+              </p>
+              <p>
+                <strong>Party:</strong> {{politicians[$index+2].Party === "D" ? "Democrat" : "Republican"}}
+              </p>
+              <p>
+                <strong>Phone:</strong> {{politicians[$index+2].Phone}}
+              </p>
+            </div>
+          </div>
+        <span>
+      </div>    
     </div>
-  </div>
+
+    <!--<table>
+      <tr ng-repeat="item in politicians | orderBy:'District':reverse | filter:customFilter" ng-switch on="$index % 3">
+        <td ng-switch-when="0">
+          {{politicians[$index].Name}} {{items[$index].name}}
+        </td>
+        <td ng-switch-when="0">
+          <span ng-show="politicians[$index+1]">
+            {{politicians[$index+1].Name}} {{items[$index+1].name}}
+          </span>
+        </td>
+        <td ng-switch-when="0">
+          <span ng-show="politicians[$index+2]">    
+            {{politicians[$index+2].Name}} {{items[$index+2].name}}
+          </span>
+        </td>
+      </tr>
+    </table>-->
 
   <!-- Pagination -->
-  <div class="w3-center w3-padding-32">
+  <!--<div class="w3-center w3-padding-32">
     <div class="w3-bar">
       <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
       <a href="#" class="w3-bar-item w3-black w3-button">1</a>
@@ -65,6 +168,6 @@
       <a href="#" class="w3-bar-item w3-button w3-hover-black">4</a>
       <a href="#" class="w3-bar-item w3-button w3-hover-black">»</a>
     </div>
-  </div>
+  </div>-->
 
 </html>

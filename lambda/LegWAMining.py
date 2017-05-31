@@ -68,7 +68,7 @@ def getAmendments(connection):
 def getCommitteeMeetings(connection):
     print('Getting Committee Meetings...')
     CommitteeMeetingServiceClient = Client('http://wslwebservices.leg.wa.gov/committeemeetingservice.asmx?WSDL')
-    getCommitteeMeetingsResult = CommitteeMeetingServiceClient.service.GetCommitteeMeetings(lastWeek, today)
+    getCommitteeMeetingsResult = CommitteeMeetingServiceClient.service.GetCommitteeMeetings(firstOfTheYear, today)
     
     if (getCommitteeMeetingsResult == None):
         return
@@ -99,6 +99,30 @@ def getCommitteeMeetings(connection):
         # Submit this all to mysql stored procedure
         call_procedure(connection, 'insert_CommitteeMeetingService', args)
 
+def getCommitteeMeetingItems(connection):
+    print('Getting CommitteeMeetingItems...')
+    CommitteeMeetingServiceClient = Client('http://wslwebservices.leg.wa.gov/committeemeetingservice.asmx?WSDL')
+
+    query = "SELECT AgendaID FROM CommitteeMeetings"
+    args = ()
+    agendaInfo = select_query(connection, query, args)
+
+    for committeeMeeting in agendaInfo:
+        agendaID = committeeMeeting[0]
+        getCommitteeMeetingItemsResult = CommitteeMeetingServiceClient.service.GetCommitteeMeetingItems(agendaID)
+        if (getCommitteeMeetingItemsResult == None):
+            continue
+        for committeeMeetingItem in getCommitteeMeetingItemsResult:
+            # print committeeMeetingItem.AgendaId
+            # print committeeMeetingItem.HearingType
+            # print committeeMeetingItem.HearingTypeDescription
+            # print committeeMeetingItem.Order
+            # print committeeMeetingItem.BillId
+            # print committeeMeetingItem.ItemDescription
+            # print committeeMeetingItem.Biennium
+            args = (agendaID, committeeMeetingItem.HearingType, committeeMeetingItem.HearingTypeDescription, committeeMeetingItem.Order, committeeMeetingItem.BillId, committeeMeetingItem.ItemDescription, committeeMeetingItem.Biennium)
+            call_procedure(connection, 'insert_CommitteeMeetingItems', args)
+
 def getCommittees(connection):
     print('Getting Committees...')
     CommitteeServiceClient = Client('http://wslwebservices.leg.wa.gov/committeeservice.asmx?WSDL')
@@ -113,6 +137,42 @@ def getCommittees(connection):
         # print committee.Phone
         args = (committee.Id, committee.Name, committee.LongName, committee.Agency, committee.Acronym, committee.Phone, datetime.now())
         call_procedure(connection, 'insert_ActiveCommittees', args)
+
+def getLegislativeDocuments(connection):
+    print('Getting Legislative Documents...')
+    LegislativeDocumentServiceClient = Client('http://wslwebservices.leg.wa.gov/legislativedocumentservice.asmx?WSDL')
+    getDocumentClassesResult = LegislativeDocumentServiceClient.service.GetDocumentClasses(biennium)
+
+    for documentClass in getDocumentClassesResult:
+        getAllDocumentsByClassResult = LegislativeDocumentServiceClient.service.GetAllDocumentsByClass(biennium, documentClass)
+        for obj in getAllDocumentsByClassResult:
+            # print obj.Name
+            # print obj.ShortFriendlyName
+            # print obj.Biennium
+            # print obj.LongFriendlyName
+            # print obj.Description
+            # print obj.Type
+            # print obj.Class
+            # print obj.HtmUrl
+            # print obj.HtmCreateDate
+            # print obj.HtmLastModifiedDate
+            # print obj.PdfUrl
+            # print obj.PdfCreateDate
+            # print obj.PdfLastModifiedDate
+            # print obj.BillId
+
+            args = (obj.Name, obj.ShortFriendlyName, obj.Biennium, obj.LongFriendlyName, obj.Description, obj.Type, obj.Class, obj.HtmUrl, obj.HtmCreateDate, obj.HtmLastModifiedDate, obj.PdfUrl, obj.PdfCreateDate, obj.PdfLastModifiedDate, obj.BillId)
+            call_procedure(connection, 'insert_LegislativeDocuments', args)
+
+    # for committee in getActiveCommitteesResult:
+    #     # print committee.Id
+    #     # print committee.Name
+    #     # print committee.LongName
+    #     # print committee.Agency
+    #     # print committee.Acronym
+    #     # print committee.Phone
+    #     args = (committee.Id, committee.Name, committee.LongName, committee.Agency, committee.Acronym, committee.Phone, datetime.now())
+    #     call_procedure(connection, 'insert_ActiveCommittees', args)
 
 def getSponsorCommittees(connection):
     print('Getting Sponsor Committees...')
@@ -277,15 +337,17 @@ def select_query(connection, query, args):
 
 def main():
     connection = connect()
-    getLegislationTypes(connection) # Currently working
-    getAmendments(connection) # Currently working
-    getSponsors(connection) # Currently working
-    # getCommitteeMeetings(connection) # Currently defunct
-    getCommittees(connection) # Currently Working
-    getSponsorCommittees(connection) # Currently Working
-    getLegislationIntroducedSince(connection) # Currently working
-    getRollCalls(connection) # Currently working
-    connection.close()
+    # getLegislationTypes(connection) # Currently working
+    # getAmendments(connection) # Currently working
+    # getSponsors(connection) # Currently working
+    # getCommittees(connection) # Currently Working
+    # getCommitteeMeetings(connection) # Currently working
+    # getCommitteeMeetingItems(connection) # Currently working
+    # getSponsorCommittees(connection) # Currently Working
+    # getLegislationIntroducedSince(connection) # Currently working
+    # getRollCalls(connection) # Currently working
+    getLegislativeDocuments(connection)
+    # connection.close()
  
 if __name__ == '__main__':
     main()
