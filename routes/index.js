@@ -9,13 +9,30 @@ router.get('/', function(req, res) {
 });
 
 router.get('/api/bills', function(req, res) {    
-    connection.query('SELECT * FROM Legislation L JOIN LegislationInfo LI ON L.LegislationInfo_idLegislationInfo = LI.idLegislationInfo WHERE L.LegalTitle IS NOT NULL AND L.Sponsor IS NOT NULL AND L.LongDescription IS NOT NULL GROUP BY L.LegalTitle', function(err, results){
+    connection.query('SELECT DISTINCT L.IntroducedDate, L.Sponsor, L.LegalTitle, L.LongDescription, C.Name, LI.BillID FROM Legislation L JOIN LegislationInfo LI ON L.LegislationInfo_idLegislationInfo = LI.idLegislationInfo LEFT JOIN CommitteeMeetingItems CMI ON LI.BillID = CMI.BillID LEFT JOIN CommitteeMeetings CM ON CMI.CommitteeMeetings_idCommitteeMeeting = CM.idCommitteeMeeting LEFT JOIN CommitteeMeetings_Committees CMC ON CMC.CommitteeMeetings_idCommitteeMeeting = CM.idCommitteeMeeting LEFT JOIN Committee C ON C.idCommittee = CMC.Committee_idCommittee WHERE L.LegalTitle IS NOT NULL AND L.Sponsor IS NOT NULL AND L.LongDescription IS NOT NULL AND LI.Active = 1', function(err, results){
         if(err) {
             throw err;
         }else{
             res.json(results);
         }
     });
+
+    // function getBillsInformation() {
+    //     var defered = Q.defer();
+    //     connection.query('SELECT * FROM Legislation L JOIN LegislationInfo LI ON L.LegislationInfo_idLegislationInfo = LI.idLegislationInfo WHERE L.LegalTitle IS NOT NULL AND L.Sponsor IS NOT NULL AND L.LongDescription IS NOT NULL GROUP BY L.LegalTitle', defered.makeNodeResolver());
+    //     return defered.promise;
+    // }
+    
+    // function getBillCommitteees() {
+    //     var defered = Q.defer();
+    //     connection.query('SELECT * FROM RollCall RC JOIN Vote V ON RC.idRollCall = V.RollCall_idRollCall JOIN Sponsor S ON S.idSponsor = V.Sponsor_idSponsor WHERE RC.BillID = ?', req.body.BillID, defered.makeNodeResolver());
+    //     return defered.promise;
+    // }
+    
+    // Q.all([getBillsInformation(),getBillRollCall()]).then(function(results){
+    //     // console.log(JSON.stringify(results));
+    //     res.send(JSON.stringify(results));
+    // });
 
 });
 
@@ -56,8 +73,14 @@ router.post('/api/bills/*', function(req, res) {
         connection.query('SELECT * FROM RollCall RC JOIN Vote V ON RC.idRollCall = V.RollCall_idRollCall JOIN Sponsor S ON S.idSponsor = V.Sponsor_idSponsor WHERE RC.BillID = ?', req.body.BillID, defered.makeNodeResolver());
         return defered.promise;
     }
+
+    function getLegislativeDocuments() {
+        var defered = Q.defer();
+        connection.query('SELECT * FROM LegislativeDocument LD WHERE LD.BillID = ?', req.body.BillID, defered.makeNodeResolver());
+        return defered.promise;
+    }
     
-    Q.all([getBillInformation(),getBillRollCall()]).then(function(results){
+    Q.all([getBillInformation(),getBillRollCall(),getLegislativeDocuments()]).then(function(results){
         // console.log(JSON.stringify(results));
         res.send(JSON.stringify(results));
         // Hint : your third query would go here

@@ -2,13 +2,13 @@
   <br>
   <br>
 
-    <div class="w3-row-padding">
-    <div class="w3-third w3-container w3-margin-bottom w3-right">
+  <div class="w3-row-padding">
+    <!--<div class="w3-third w3-container w3-margin-bottom w3-right">
       <div class="w3-container w3-white">
         <input type="text" name="search" placeholder="Search..">
       </div>
-    </div>
-    <div class="w3-dropdown-hover">
+    </div>-->
+    <!--<div class="w3-dropdown-hover">
       <button class="w3-button">Select A Category</button>
       <div class="w3-dropdown-content w3-bar-block w3-card-4">
         <a href="#" class="w3-bar-item w3-button">Education</a>
@@ -24,7 +24,14 @@
         <a href="#" class="w3-bar-item w3-button">2016</a>
         <a href="#" class="w3-bar-item w3-button">2015</a>
       </div>
-    </div>
+    </div>-->
+    <!--Filter-->
+    <select ng-model="filterItem.store" ng-options="item.name for item in filterOptions.stores"></select>
+    
+    <!--Sort:-->
+    <select ng-model="sortItem.store" ng-options="item.name for item in sortOptions.stores">
+    </select>
+
   </div>
 
   <!--Tiles-->
@@ -38,7 +45,7 @@
  <!--ng-repeat="item in filteredBills track by $index"-->
 
   <div class="w3-padding">
-    <div class="w3-card-2 w3-margin-bottom" dir-paginate="item in bills | itemsPerPage: 10">
+    <div class="w3-card-2 w3-margin-bottom" ng-repeat="item in bills | orderBy:'IntroducedDate':reverse | filter:customFilter | limitTo: 50"> <!-- ng-repeat="item in bills | itemsPerPage: 10 | orderBy:'IntroducedDate':reverse | filter:customFilter | limitTo: 50" -->
       <header class="w3-container w3-grey">
         <a ui-sref="single-bill({ BillID : item.BillID })"><h3>{{item.LegalTitle}}</h3></a>
       </header>
@@ -47,8 +54,9 @@
         <p><strong>Sponsor:</strong> {{item.Sponsor}}</p>
         <p><strong>BillID:</strong> {{item.BillID}}</p>
         <p><strong>Introduced Date:</strong> {{item.IntroducedDate | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
+        <p><strong>Committee Name:</strong> {{item.Name || "No Committee Assigned"}}</p>
       </div>
     </div>
   </div>
 
-  <dir-pagination-controls boundary-links="true" template-url="partials/dirPagination.tpl.html"></dir-pagination-controls>
+  <!--<dir-pagination-controls boundary-links="true" template-url="partials/dirPagination.tpl.html"></dir-pagination-controls>-->
