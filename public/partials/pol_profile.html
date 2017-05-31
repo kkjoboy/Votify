@@ -46,17 +46,12 @@
         <p>This chart shows how often {{profileData[0].Name}} attends meetings for voting on bills for each month of 2017.</p>
         <div id="vis1" class="container">
         </div>
-
-        <h5 class="w3-opacity"><b>Voting Patterns by Political Viewpoint</b></h5>
-          <div id="vis2" class="container">
-        </div>  
-      </div>
-
       <div class="w3-container w3-card-2 w3-white">
         <div ng-repeat="val in profileData" class="w3-container">
-          <h5 class="w3-opacity"><b>{{val.ID}}</b></h5>
+          <h5 class="w3-opacity"><b>Bill ID : {{val.ID}}</b></h5>
           <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>{{val.Timestamp}}</h6>
-          <p>Voted {{val.Vote}}.</p>
+          <p>{{val.Description}}</p>
+          <p>{{profileData[0].Name}} voted {{val.Vote}} for this bill.</p>
           <hr>
         </div>
       </div>
