@@ -1,5 +1,7 @@
 'use script';
 
+var globalId; 
+
 angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'angularUtils.directives.dirPagination']) //ngSanitize for HTML displaying
 
 .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -70,15 +72,14 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'angularUt
 .controller('ProfileCtrl', ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
 
 	var idSponsor = $stateParams.idSponsor;
-	console.log(idSponsor);
 	$scope.idSponsor = idSponsor;
+	globalId = idSponsor;
 	var data = 	{
 					idSponsor : $scope.idSponsor
                 };
-	
 	$http.post('/api/politicians/'+$scope.idSponsor, data)
 		.success(function(data, status, headers, config) {
-			console.log('Success');
+			console.log('Success')
 			$scope.profileData = data;
 			console.log(data);
 		})

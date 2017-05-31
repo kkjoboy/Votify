@@ -1,3 +1,6 @@
+let id = 1;
+console.log(id);
+
 $(function() {
     // Graph margin settings
     var margin = {
@@ -30,9 +33,22 @@ $(function() {
             .attr('height', drawHeight);
 
     // Load data in using d3's csv function.
-    d3.csv('mockData/RollCallData.csv', function(error, data) {
+    d3.csv('data/rollcallcopy.csv', function(data) {
         /************************************** Data prep ***************************************/
-
+        data = data.filter(function(row){
+            return row['idSponsor'] == id
+        });
+        var myData = d3.nest().key(function(d) {return d.VoteMonth}).rollup(function(g){return g[0].VoteCount}).entries(data);
+        console.log(myData);
+        //data = data.map(function(d) {return d.key;})
+        //var data = d3.nest()
+                 //   .key(function(d) { 
+                 //       if (d.idSponsor == id) {
+                //            return d.idSponsor;}
+                 //   })
+                 //   .entries(data);
+        //console.log(data);
+        //data = d3.nest().key(function(d){console.log(d.values); return d;}).entries(data);
         // You'll need to *aggregate* the data such that, for each device-app combo, you have the *count* of the number of occurances
         // Lots of ways to do it, but here's a slick d3 approach: 
         // http://www.d3noob.org/2014/02/grouping-and-summing-data-using-d3nest.html
@@ -46,7 +62,19 @@ $(function() {
         var xScale = d3.scaleBand()
                         .range([0,drawWidth])
                         .padding(0.1);
-        xScale.domain(data.map(function(d) {return d.Year; }));
+        xScale.domain(myData.map(function(d) {
+            if (d.key == 1) {
+                d.key = 'January'
+            } else if (d.key == 2) {
+                d.key = 'February'
+            } else if (d.key == 3) {
+                d.key = 'March'
+            } else if (d.key == 4) {
+                d.key = 'April'
+            } else if (d.key == 5) {
+                d.key = 'May'
+            } else d.key;
+            return d.key; }));
         // Using `d3.axisBottom`, create an `xAxis` object that holds can be later rendered in a `g` element
         // Make sure to set the scale as your `xScale`
         var xAxis = d3.axisBottom()
@@ -54,19 +82,19 @@ $(function() {
 
         // Create a variable that stores the maximum count using `d3.max`, and multiply this valu by 1.1
         // to create some breathing room in the top of the graph.
-        var max = d3.max(function (data){
-            +d.Attend;
+        var max = d3.max(function (d){
+            +d.value;
         })*1.1;
-        var min = d3.min(function (data){
-            +d.Attend;
+        var min = d3.min(function (d){
+            +d.value;
         })*1.1;
 
         // Create a `yScale` for drawing the heights of the bars. Given the data type, `d3.scaleLinear` is a good approach.
         var yScale = d3.scaleLinear()
                         .range([drawHeight, 0]);
 
-        yScale.domain([0, d3.max(data, function(d) { 
-            return d.Attend; })]);
+        yScale.domain([0, d3.max(myData, function(d) {
+            return d.value; })]);
 
         var yAxis = d3.axisLeft(yScale);
         // Using `d3.axisLeft`, create a `yAxis` object that holds can be later rendered in a `g` element
@@ -111,22 +139,22 @@ $(function() {
         var yText = svg.append('text')
                        .attr('transform', 'translate(' + (margin.left - 40) + ',' + ((margin.top+80) + drawHeight / 2) + ') rotate(-90)')
                         .attr('class', 'axis-label')
-                        .text('Average Roll Call Attendance');
+                        .text('Roll Call Attendance');
 
         /************************************** Drawing Data ***************************************/
 
         // Select all elements with the class 'bar' in your `g` element. Then, conduct a data-join
         // with your parsedData array to append 'rect' elements with `he class set as 'bar'
-        var bars = g.selectAll('bar').data(data);
-        
+    var draw = function() {
+        var bars = g.selectAll('.bar').data(myData);
         // Determine which elements are new to the screen (`enter`), and for each element, 
         // Append a `rect` element, setting the `x`, `y`, `width`, and `height` attributes using your data and scales
 
-        var myMouseOver = function() {
+        var myMouseOver = function(d) {
 				var bar = d3.select(this);
 				bar.style('fill', 'red' );
 		}
-        var myMouseOff = function() {
+        var myMouseOff = function(d) {
 				var bar = d3.select(this);
 				bar.style('fill', '#468966' );
 		}
@@ -136,23 +164,37 @@ $(function() {
             .attr('class','bar')
             .attr('fill','#468966')
             .attr('x', function(d){
-                return xScale(d.Year);
+                return xScale(d.key);
             })
             .attr('y', function(d) { 
-                return yScale(d.Attend); 
+                return yScale(d.value); 
             })
             .attr("width", xScale.bandwidth())
             .attr("height", function(d) { 
-                return drawHeight - yScale(d.Attend);
+                return drawHeight - yScale(d.value);
             })
             .attr('title', function(d){
-                return xScale(d.Attend);
+                return xScale(d.value);
             })
             .on("mouseover", myMouseOver)
             .on("mouseout", myMouseOff);
+
+            bars.append("text")
+            .attr("class", "label")
+            .attr("height", function(d) { 
+                return drawHeight - yScale(d.value);
+            })
+            .attr("dy", ".35em") //vertical align middle
+            .text(function(d){
+                return d.label;
+            }).each(function() {
+        labelWidth = Math.ceil(Math.max(labelWidth, this.getBBox().width));
+    });
             
         bars.exit()
             .remove();
+    };
+    draw();
 
     });
 });
