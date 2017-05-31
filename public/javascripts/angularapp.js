@@ -77,12 +77,57 @@ angular.module('VoteApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'angularUt
 }])
 .controller('ProfileCtrl', ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
 
+	$scope.deleteScript = function(url, id) {
+		
+		// var heads = document.getElementsByTagName("head");
+		// var script = heads.removeChild(document.querySelector("script[src*='"+url+"']"));
+		var script = document.querySelector("script[src*='"+url+"']")
+		if (script == null) {
+			return;
+		} else {
+			console.log("Right here bitch");
+			// console.log(script.parentNode);
+			var scriptElem = document.getElementById(id);
+			console.log(scriptElem)
+			scriptElem.parentNode.removeChild(scriptElem);
+		}
+	};
+
+	$scope.loadScript = function(url, type, charset, id) {
+		if (type===undefined) type = 'text/javascript';
+		if (url) {
+			var script = document.querySelector("script[src*='"+url+"']");
+			if (!script) {
+				var heads = document.getElementsByTagName("head");
+				if (heads && heads.length) {
+					var head = heads[0];
+					if (head) {
+						script = document.createElement('script');
+						script.setAttribute('src', url);
+						script.setAttribute('type', type);
+						script.setAttribute('id', id)
+						if (charset) script.setAttribute('charset', charset);
+						head.appendChild(script);
+					}
+				}
+			}
+			return script;
+		}
+	};
+
+	$scope.deleteScript('javascripts/d3.js', 'fuckthisshityouknowigotit');
+	$scope.deleteScript('javascripts/d32.js', 'fuckthisshityouknowigotit2');
+
+	$scope.loadScript('javascripts/d3.js', 'text/javascript', 'utf-8', 'fuckthisshityouknowigotit');
+	$scope.loadScript('javascripts/d32.js', 'text/javascript', 'utf-8', 'fuckthisshityouknowigotit2');
+
 	var idSponsor = $stateParams.idSponsor;
 	$scope.idSponsor = idSponsor;
 	globalId = idSponsor;
 	var data = 	{
 					idSponsor : $scope.idSponsor
                 };
+
 	$http.post('/api/politicians/'+$scope.idSponsor, data)
 		.success(function(data, status, headers, config) {
 			console.log('Success')
