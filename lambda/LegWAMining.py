@@ -60,6 +60,7 @@ def getAmendments(connection):
         return
 
     for obj in getAmendmentsResult:
+        print(obj)
         args = (obj.Agency, obj.BillId, obj.BillNumber, obj.Description, obj.DocumentExists, obj.Drafter, obj.FloorAction, obj.FloorActionDate, obj.FloorNumber, obj.HtmUrl, obj.LegislativeSession, obj.Name, obj.PdfUrl, obj.SponsorName, obj.Type)
         call_procedure(connection, 'insert_Amendments', args)
 
@@ -94,6 +95,7 @@ def getCommitteeMeetings(connection):
             nameList = nameList + delimeter + str(obj.Committees[committee][x].Name)
             committeeLength = committeeLength + 1
 
+        print(obj)
         # Get committee meeting values
         args = (obj.Agency, obj.AgendaId, obj.Building, obj.Cancelled, obj.City, obj.ContactInformation, obj.Date, obj.RevisedDate, obj.Room, obj.State, obj.ZipCode, phoneList, acronymList, agencyList, idList, longnameList, nameList, committeeLength)
         # Submit this all to mysql stored procedure
@@ -120,6 +122,7 @@ def getCommitteeMeetingItems(connection):
             # print committeeMeetingItem.BillId
             # print committeeMeetingItem.ItemDescription
             # print committeeMeetingItem.Biennium
+            print(committeeMeetingItem)
             args = (agendaID, committeeMeetingItem.HearingType, committeeMeetingItem.HearingTypeDescription, committeeMeetingItem.Order, committeeMeetingItem.BillId, committeeMeetingItem.ItemDescription, committeeMeetingItem.Biennium)
             call_procedure(connection, 'insert_CommitteeMeetingItems', args)
 
@@ -135,6 +138,7 @@ def getCommittees(connection):
         # print committee.Agency
         # print committee.Acronym
         # print committee.Phone
+        print(committee)
         args = (committee.Id, committee.Name, committee.LongName, committee.Agency, committee.Acronym, committee.Phone, datetime.now())
         call_procedure(connection, 'insert_ActiveCommittees', args)
 
@@ -161,6 +165,7 @@ def getLegislativeDocuments(connection):
             # print obj.PdfLastModifiedDate
             # print obj.BillId
 
+            print(obj)
             args = (obj.Name, obj.ShortFriendlyName, obj.Biennium, obj.LongFriendlyName, obj.Description, obj.Type, obj.Class, obj.HtmUrl, obj.HtmCreateDate, obj.HtmLastModifiedDate, obj.PdfUrl, obj.PdfCreateDate, obj.PdfLastModifiedDate, obj.BillId)
             call_procedure(connection, 'insert_LegislativeDocuments', args)
 
@@ -204,6 +209,7 @@ def getSponsorCommittees(connection):
             # print sponsor.Email
             # print sponsor.FirstName
             # print sponsor.LastName
+            print(sponsor)
             args = (sponsor.Id, sponsor.Name, sponsor.LongName, sponsor.Agency, sponsor.Acronym, sponsor.Party, sponsor.District, sponsor.Phone, sponsor.Email, sponsor.FirstName, sponsor.LastName, committee[0])
             call_procedure(connection, 'insert_SponsorCommittee', args)
 
@@ -227,6 +233,7 @@ def getLegislationIntroducedSince(connection):
         Veto = None
         AmendmentsExist = None
         Status = None
+        print(obj)
         args = (obj.Biennium, obj.BillNumber, obj.SubstituteVersion, obj.EngrossedVersion, obj.OriginalAgency, obj.Active, obj.DisplayNumber, obj.StateFiscalNote, obj.LocalFiscalNote, obj.Appropriations, obj.RequestedByGovernor, obj.RequestedByBudgetCommittee, obj.RequestedByDepartment, obj.RequestedByOther, obj.ShortDescription, obj.Request, obj.IntroducedDate, obj.Sponsor, obj.PrimeSponsorID, obj.LongDescription, obj.LegalTitle, obj.ShortLegislationType.ShortLegislationType, obj.ShortLegislationType.LongLegislationType, obj.CurrentStatus.BillId, obj.CurrentStatus.HistoryLine, obj.CurrentStatus.ActionDate, obj.CurrentStatus.AmendedByOppositeBody, obj.CurrentStatus.PartialVeto, obj.CurrentStatus.Veto, obj.CurrentStatus.AmendmentsExist, obj.CurrentStatus.Status)
         call_procedure(connection, 'insert_GetLegislationIntroducedSince', args)
 
@@ -239,6 +246,7 @@ def getSponsors(connection):
         return
 
     for obj in getSponsorsResult:
+        print(obj)
         args = (obj.Id, obj.Name, obj.LongName, obj.Agency, obj.Acronym, obj.Party, obj.District, obj.Phone, obj.Email, obj.FirstName, obj.LastName)
         call_procedure(connection, 'insert_GetSponsors', args)
 
@@ -281,7 +289,8 @@ def getRollCalls(connection):
                 NameList = NameList + delimeter + vote.Name
                 VoteList = VoteList + delimeter + str(vote.VOte)
                 VoteLength = VoteLength + 1
-
+            
+            print(obj)
             # Get committee meeting values
             args = (billNumber[1],obj.Agency,obj.BillId,obj.Biennium,obj.Motion,obj.SequenceNumber,obj.VoteDate,MemberIdList,NameList,VoteList,VoteLength)
             # Submit this all to mysql stored procedure
@@ -337,17 +346,17 @@ def select_query(connection, query, args):
 
 def main():
     connection = connect()
-    # getLegislationTypes(connection) # Currently working
-    # getAmendments(connection) # Currently working
-    # getSponsors(connection) # Currently working
-    # getCommittees(connection) # Currently Working
-    # getCommitteeMeetings(connection) # Currently working
-    # getCommitteeMeetingItems(connection) # Currently working
-    # getSponsorCommittees(connection) # Currently Working
-    # getLegislationIntroducedSince(connection) # Currently working
-    # getRollCalls(connection) # Currently working
+    getLegislationTypes(connection) # Currently working
+    getAmendments(connection) # Currently working
+    getSponsors(connection) # Currently working
+    getCommittees(connection) # Currently Working
+    getCommitteeMeetings(connection) # Currently working
+    getCommitteeMeetingItems(connection) # Currently working
+    getSponsorCommittees(connection) # Currently Working
+    getLegislationIntroducedSince(connection) # Currently working
+    getRollCalls(connection) # Currently working
     getLegislativeDocuments(connection)
-    # connection.close()
+    connection.close()
  
 if __name__ == '__main__':
     main()

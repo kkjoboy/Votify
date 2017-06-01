@@ -46,7 +46,7 @@ router.post('/api/bills/*', function(req, res) {
     
     function getBillRollCall() {
         var defered = Q.defer();
-        connection.query('SELECT * FROM RollCall RC JOIN Vote V ON RC.idRollCall = V.RollCall_idRollCall JOIN Sponsor S ON S.idSponsor = V.Sponsor_idSponsor WHERE RC.BillID = ?', req.body.BillID, defered.makeNodeResolver());
+        connection.query('SELECT * FROM RollCall RC JOIN Vote V ON RC.idRollCall = V.RollCall_idRollCall JOIN Sponsor S ON S.idSponsor = V.Sponsor_idSponsor WHERE RC.BillID = ? GROUP BY S.idSponsor', req.body.BillID, defered.makeNodeResolver());
         return defered.promise;
     }
 
