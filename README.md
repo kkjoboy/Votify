@@ -24,8 +24,7 @@ Votify aims to fill in the information gap between Washington state government a
 Technology Decisions
 --------------------
 
-//why we chose the stack we did 
-//@Josh
+Our application is built fully in a modified MEAN stack, replacing MongoDB typically found in MEAN stacks for MySQL Aurora on Amazon RDS for redundancy and scalability purposes. We decided to use the MEAN stack for our project because these Javascript libraries are becoming a new industry standard, the ExpressJS module for server side routing, the AngularJS module for client side routing, and the NodeJS module for server side hosting. AngularJS lets us take our large amounts of data from our databases and filter and display them on the client side with minimal repetition of HTML and CSS code, making our HTML codebase extremely clean and easy to manage. ExpressJS takes the worry out of having to write complex server side routing and allows us to condense our routing into a few files, even with very complex pages, and it also let us write an API to query our database from client-side AngularJS requests. The database is managed through Amazon RDS, which provides scalability and redundancy to our data stores. The build is deployed on Amazon Elastic Beanstalk, which lets us deploy changes directly from our GitHub repository. Our data mining script is written in Python and deployed on AWS Lambda, which is serverless computing that allows us to only pay for computing power when our script is refreshing the newest data in the database. Overall, using the Amazon AWS services and MEAN stack has allowed us to write a lightweight, cost-effective program that can run on its own for the time to come.
 
 -------------------
 Contact Information
