@@ -16,5 +16,21 @@
     "mysql": "^2.13.0",
     "q": "^1.5.0",
     "serve-favicon": "~2.4.2"
-  }
+  },
+  "description": "------\r README\r ------",
+  "main": "mainApp.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kkjoboy/Votify.git"
+  },
+  "author": "Joshua Mielke, Ashlyn Opgrande, Nicholas Polsin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kkjoboy/Votify/issues"
+  },
+  "homepage": "https://github.com/kkjoboy/Votify#readme"
 }
